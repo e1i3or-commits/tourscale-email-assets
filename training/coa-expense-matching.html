@@ -1,0 +1,868 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Chart of Accounts &amp; Expense Matching — TourScale Finance Training</title>
+<style>
+:root{--navy:#1a1a2e;--navy-accent:#213976;--orange:#f86e4f;--blue:#53acef;--blue-2:#4399d4;--bg:#f5f7fb;--ink:#2b2d33;--muted:#6b7280;--line:#e8ecf2;--line-soft:#f0f2f5;--card:#fff;--good:#1f9d6b;--bad:#e0492f;}
+*{box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;}
+.page{max-width:900px;margin:0 auto;padding:32px 20px 80px;}
+.masthead{background:var(--navy);border-radius:14px 14px 0 0;padding:26px 36px;display:flex;align-items:center;justify-content:space-between;}
+.masthead img{width:132px;height:auto;display:block;}
+.masthead .meta{color:rgba(255,255,255,.5);font-size:12px;text-align:right;}
+.gradient-bar{height:5px;background:linear-gradient(90deg,#4399d4 0%,#1edee4 50%,#59c3b8 100%);}
+.titleblock{background:var(--card);padding:34px 36px 28px;border-bottom:2px solid var(--navy);}
+.eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--muted);}
+.titleblock h1{margin:10px 0 6px;font-size:30px;line-height:1.2;color:var(--navy);font-weight:800;}
+.titleblock .sub{color:var(--muted);font-size:14px;}
+.titleblock .tags{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px;}
+.pill{font-size:11px;font-weight:700;letter-spacing:.4px;padding:5px 11px;border-radius:999px;background:#eef3fb;color:var(--navy-accent);}
+.body{background:var(--card);border-radius:0 0 14px 14px;padding:8px 36px 40px;box-shadow:0 1px 4px rgba(0,0,0,.08);}
+h2{font-size:21px;color:var(--navy);font-weight:800;margin:40px 0 6px;padding-top:14px;border-top:1px solid var(--line);}
+h2 .num{display:inline-block;min-width:30px;color:var(--orange);font-weight:800;}
+h3{font-size:16px;color:var(--navy-accent);margin:26px 0 4px;}
+h3 .rng{font-size:12px;color:var(--muted);font-weight:600;}
+p{margin:10px 0;} .blurb{color:#444;font-size:13.5px;margin:4px 0 10px;}
+a{color:var(--blue-2);} strong,b{color:var(--navy);}
+code{background:#eef1f6;color:var(--navy-accent);padding:1px 6px;border-radius:5px;font-size:13px;font-family:"SF Mono","Consolas",monospace;}
+.toc{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:18px 22px;margin:22px 0 4px;}
+.toc h4{margin:0 0 10px;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);}
+.toc ol{margin:0;padding-left:20px;columns:2;column-gap:28px;}.toc li{margin:4px 0;}.toc a{text-decoration:none;}.toc a:hover{text-decoration:underline;}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.5px;}
+th{background:var(--bg);text-align:left;padding:9px 12px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);border-bottom:1px solid var(--line);}
+td{padding:8px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+table.lined{border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+table.acct td.ac{font-family:"SF Mono","Consolas",monospace;color:var(--navy-accent);font-weight:700;white-space:nowrap;width:64px;}
+table.acct td.nt{color:#555;font-size:12.5px;line-height:1.5;}
+tr.muted td{background:#fafbfc;color:#98a0ab;}
+.nt .hdr{color:#9aa1ab;font-style:italic;}
+.badge{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;background:#e6f4ec;color:var(--good);padding:1px 6px;border-radius:4px;vertical-align:middle;margin-left:4px;}
+.badge.dim{background:#eef1f6;color:#8a93a0;}
+.callout{border-radius:8px;border:1.5px solid var(--line);border-left:4px solid var(--blue);padding:14px 18px;margin:18px 0;background:#f8fbff;}
+.callout.warn{border-left-color:var(--orange);background:#fff7f4;}
+.callout .lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;margin-bottom:5px;}
+.callout.warn .lbl{color:var(--orange);}.callout:not(.warn) .lbl{color:var(--blue-2);}
+ul.checklist{list-style:none;padding-left:6px;}ul.checklist li{margin:8px 0;padding-left:28px;position:relative;}
+ul.checklist li::before{content:"☐";position:absolute;left:0;top:-1px;color:var(--orange);font-size:18px;font-weight:700;}
+/* quiz */
+.quizbox{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:16px 0;}
+.q{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:12px 0;}
+.qhead{display:flex;gap:12px;align-items:flex-start;}
+.qn{flex:none;width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;}
+.qmerch{font-weight:700;color:var(--navy);font-family:"SF Mono","Consolas",monospace;font-size:13.5px;}
+.qmeta{font-size:12.5px;color:var(--muted);margin-top:2px;}.qhint{font-style:italic;}
+.qsel{margin-top:10px;width:100%;padding:9px 10px;border:1.5px solid var(--line);border-radius:8px;font-size:14px;background:#fff;color:var(--ink);}
+.qfb{font-size:13px;font-weight:700;margin-top:8px;min-height:0;}
+.qwhy{font-size:12.5px;color:#555;margin-top:6px;display:none;border-left:3px solid var(--blue);padding-left:10px;}
+.q.correct{border-color:var(--good);} .q.correct .qfb{color:var(--good);}
+.q.wrong{border-color:var(--bad);} .q.wrong .qfb{color:var(--bad);}
+.q.correct .qwhy,.q.wrong .qwhy{display:block;}
+.tq{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:12px 0;}
+.tqgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;margin-top:12px;}
+.tqgrid label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);display:block;}
+.tqsel{margin-top:4px;width:100%;padding:8px 9px;border:1.5px solid var(--line);border-radius:8px;font-size:13.5px;background:#fff;color:var(--ink);}
+.tqsel.ok{border-color:var(--good);background:#f4fbf7;}
+.tqsel.no{border-color:var(--bad);background:#fdf4f2;}
+.tq.correct{border-color:var(--good);} .tq.correct .qfb{color:var(--good);}
+.tq.wrong{border-color:var(--bad);} .tq.wrong .qfb{color:var(--bad);}
+.tq.correct .qwhy,.tq.wrong .qwhy{display:block;}
+.quizbtns{margin-top:16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
+.btn{border:none;border-radius:8px;padding:11px 22px;font-size:14px;font-weight:700;cursor:pointer;}
+.btn.primary{background:var(--navy);color:#fff;}.btn.ghost{background:#fff;border:1.5px solid var(--line);color:var(--navy);}
+.score{font-weight:800;font-size:16px;color:var(--navy);}
+.footer{margin-top:30px;background:var(--navy);border-radius:14px;overflow:hidden;}
+.footer .grad{height:4px;background:linear-gradient(90deg,#4399d4 0%,#1edee4 50%,#59c3b8 100%);}
+.footer .inner{padding:22px 30px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+.footer img{width:130px;margin-bottom:8px;}
+.footer .addr{color:rgba(255,255,255,.45);font-size:11px;line-height:1.55;}
+.footer .links a{display:block;color:rgba(255,255,255,.6);text-decoration:none;font-size:11px;line-height:1.9;}
+.footer .links a:hover{color:#fff;}
+.footer .copy{padding:12px 30px;border-top:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.3);font-size:10px;}
+@media(max-width:600px){.toc ol{columns:1;}.masthead,.titleblock,.body{padding-left:22px;padding-right:22px;}}
+@media print{body{background:#fff;}.body,.masthead,.footer{box-shadow:none;}h2,h3{page-break-after:avoid;}table,.callout,.q,.tq{page-break-inside:avoid;}.qwhy{display:block!important;}}
+</style>
+</head>
+<body>
+<div class="page">
+<div class="masthead">
+<img src="https://tourscale-repos.github.io/tourscale-email-assets/logos/tourscale-logo-white.png" alt="TourScale" />
+<div class="meta">Internal Training · Finance<br />Updated June 8, 2026</div>
+</div>
+<div class="gradient-bar"></div>
+<div class="titleblock">
+<div class="eyebrow">Admin &amp; Finance Coordinator Onboarding</div>
+<h1>Chart of Accounts &amp; Expense Matching</h1>
+<div class="sub">A practical, comprehensive guide to how TourScale categorizes spending in Zoho Books — for Daysi Contreras.</div>
+<div class="tags"><span class="pill">Zoho Books</span><span class="pill">TourScale Enterprises, LLC</span><span class="pill">USD · Calendar FY</span><span class="pill">258 expense accounts</span></div>
+</div>
+<div class="body">
+<div class="toc"><h4>What's inside</h4><ol>
+<li><a href="#s1">The big picture</a></li>
+<li><a href="#s2">CoA number ranges</a></li>
+<li><a href="#s3">Full expense account reference</a></li>
+<li><a href="#s4">Reporting tags</a></li>
+<li><a href="#s5">Expense matching workflow</a></li>
+<li><a href="#s6">Gotchas &amp; house rules</a></li>
+<li><a href="#s7">Practice quiz</a></li>
+<li><a href="#s8">First-week checklist</a></li>
+</ol></div>
+
+<p>Welcome aboard, Daysi. This guide teaches the two things you'll use every day in Zoho Books: our <strong>Chart of Accounts</strong> and <strong>expense matching</strong>. Every account, note, and example below is pulled from our live Books data, so it matches what you'll see on screen. The <span class="badge">Common</span> tag marks accounts we used a lot so far this year; a small <span class="badge dim">N×</span> shows roughly how many times year-to-date.</p>
+
+<h2 id="s1"><span class="num">1.</span> The big picture</h2>
+<p>Two things describe every transaction: <strong>the account</strong> (<em>what kind</em> of cost it is) and <strong>the reporting tags</strong> (<em>who</em> it belongs to — entity, business unit, location, department). You set both on almost every expense.</p>
+<div class="callout"><div class="lbl">Why tags matter</div>We run <strong>one Zoho Books org for several related LLCs.</strong> The account says "Vessel Fuel"; the tags say "this belongs to Trolley Pub of NC, CT Wilmington, Wilmington NC, Operations." Wrong tags silently break every per-brand and per-entity report. See §4.</div>
+
+<h2 id="s2"><span class="num">2.</span> Chart of Accounts — the number ranges</h2>
+<p>The first digit tells you the type.</p>
+<table class="lined"><tr><th>Range</th><th>Type</th><th>What lives here</th></tr>
+<tr><td class="ac">1000s</td><td><b>Assets</b></td><td>Bank accounts, A/R, prepaids, notes receivable, inventory, vessels/party bikes</td></tr>
+<tr><td class="ac">2000s</td><td><b>Liabilities</b></td><td>Payroll liabilities, deferred income, loans, clearing accounts</td></tr>
+<tr><td class="ac">3000s</td><td><b>Equity</b></td><td>Owner contributions, draws, retained earnings</td></tr>
+<tr><td class="ac">4000s</td><td><b>Income</b></td><td>Tour sales, franchise fees/royalties, tech fees, ad fund, lease income</td></tr>
+<tr><td class="ac">5000s</td><td><b>COGS</b></td><td>Direct cost of a tour or asset we build/sell — fuel, ice, crew, build costs, shipping COGS</td></tr>
+<tr><td class="ac">6000s</td><td><b>Operating Expenses</b></td><td>Advertising, payroll, rent, insurance, software, travel, professional services</td></tr>
+<tr><td class="ac">7000–8000s</td><td><b>Other Income / Expense</b></td><td>Card rewards, grants, interest earned, interest paid, gain/loss on asset sales</td></tr>
+</table>
+<div class="callout"><div class="lbl">Rule of thumb</div>Directly tied to running a tour or producing an asset we sell → <b>COGS (5xxx)</b>. Keeps the business running regardless of tour volume → <b>operating expense (6xxx)</b>.</div>
+
+<h2 id="s3"><span class="num">3.</span> Full expense account reference</h2>
+<p class="blurb">Every active expense and COGS account, grouped by category, with a note on what each is for (notes are from Zoho Books itself). Rows in grey are <b>header / parent</b> accounts — you never post to those directly; pick a specific child line. 128 of these were used at least once so far this year.</p>
+<h3>Advertising <span class="rng">6010–6072</span></h3>
+<p class="blurb">The biggest category by volume. Note the three audiences — <b>Ops</b> (our own units), <b>FranDev</b> (recruiting new franchisees), and <b>Franchisee</b> (spend on a franchisee's behalf). Pick the one that matches who the ad is for.</p>
+<table class="lined acct"><tr><th>Code</th><th>Account</th><th>What it's for</th></tr>
+<tr class="muted"><td class="ac">6010</td><td>Advertising </td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr class="muted"><td class="ac">6015</td><td>Advertising - Operations <span class="badge dim">1×</span></td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">6016</td><td>Ad Management - Operations </td><td class="nt">This account is designated for expenses related to the management of advertising operations, including strategy and execution costs.</td></tr>
+<tr class="muted"><td class="ac">6020</td><td>Adspend - Operations </td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">6021</td><td>Bing Ads - Ops </td><td class="nt">Expenses specifically related to advertising on Bing. This account is a subdivision of Adspend - Operations.</td></tr>
+<tr><td class="ac">6022</td><td>Meta Ads - Ops <span class="badge">Common</span></td><td class="nt">This account tracks spending on Meta (formerly Facebook) ads. It falls under Adspend - Operations.</td></tr>
+<tr><td class="ac">6023</td><td>Google Adwords - Ops <span class="badge">Common</span></td><td class="nt">Dedicated to expenses incurred through Google AdWords campaigns. Part of the Adspend - Operations category.</td></tr>
+<tr><td class="ac">6024</td><td>Influencer - Ops </td><td class="nt">Expenses for influencer marketing campaigns are recorded here, under Adspend - Operations.</td></tr>
+<tr><td class="ac">6025</td><td>LinkedIn - Ops </td><td class="nt">This account covers costs associated with LinkedIn advertising and is a subcategory of Adspend - Operations.</td></tr>
+<tr><td class="ac">6026</td><td>Other Digital Adspend - Ops </td><td class="nt">For digital advertising expenses not covered under other specific digital ad accounts. Part of Adspend - Operations.</td></tr>
+<tr><td class="ac">6027</td><td>Print - Ops </td><td class="nt">Tracks expenses related to print media advertising, under the umbrella of Adspend - Operations.</td></tr>
+<tr class="muted"><td class="ac">6030</td><td>Advertising - FranDev </td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">6031</td><td>Ad Management - FranDev </td><td class="nt">This account is for managing advertising specifically for franchise development.</td></tr>
+<tr class="muted"><td class="ac">6035</td><td>Adspend - FranDev </td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">6036</td><td>Bing Ads - FranDev </td><td class="nt">Expenses on Bing Ads for franchise development, under Adspend - FranDev.</td></tr>
+<tr><td class="ac">6037</td><td>Meta Ads - FranDev </td><td class="nt">Tracks spending on Meta ads for franchise development, part of Adspend - FranDev.</td></tr>
+<tr><td class="ac">6038</td><td>Google Adwords - FranDev </td><td class="nt">Google AdWords expenses specifically for franchise development, falling under Adspend - FranDev.</td></tr>
+<tr><td class="ac">6039</td><td>Influencer - FranDev </td><td class="nt">Expenses for influencer marketing in the context of franchise development, under Adspend - FranDev.</td></tr>
+<tr><td class="ac">6040</td><td>LinkedIn - FranDev </td><td class="nt">This account is for LinkedIn advertising costs related to franchise development, part of Adspend - FranDev.</td></tr>
+<tr><td class="ac">6041</td><td>Other Digital Adspend - FranDev <span class="badge dim">1×</span></td><td class="nt">Categorizes other digital advertising expenses for franchise development not specified elsewhere, under Adspend - FranDev.</td></tr>
+<tr><td class="ac">6042</td><td>Print - FranDev </td><td class="nt">Tracks print advertising expenses for franchise development, part of Adspend - FranDev.</td></tr>
+<tr class="muted"><td class="ac">6050</td><td>Advertising - Franchisee <span class="badge dim">2×</span></td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">6051</td><td>Ad Management - Franchisee </td><td class="nt">Expenses related to the management of advertising specifically for franchisees.</td></tr>
+<tr class="muted"><td class="ac">6055</td><td>Adspend - Franchisee </td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">6066</td><td>Bing Ads - Franchisee </td><td class="nt">Expenses on Bing Ads specifically targeted towards franchisees, under Adspend - Franchisee.</td></tr>
+<tr><td class="ac">6067</td><td>Meta Ads - Franchisee </td><td class="nt">For Meta advertising costs focused on franchisees, part of Adspend - Franchisee.</td></tr>
+<tr><td class="ac">6068</td><td>Google Adwords - Franchisee </td><td class="nt">Google AdWords expenses for franchisee-focused campaigns, under Adspend - Franchisee.</td></tr>
+<tr><td class="ac">6069</td><td>Influencer - Franchisee </td><td class="nt">This account tracks influencer marketing expenses aimed at franchisees, part of Adspend - Franchisee.</td></tr>
+<tr><td class="ac">6070</td><td>LinkedIn - Franchisee </td><td class="nt">LinkedIn advertising expenses related to franchisees, under Adspend - Franchisee.</td></tr>
+<tr><td class="ac">6071</td><td>Other Digital Adspend - Franchisee </td><td class="nt">Other digital advertising expenses not explicitly categorized, aimed at franchisees, part of Adspend - Franchisee.</td></tr>
+<tr><td class="ac">6072</td><td>Print - Franchisee <span class="badge dim">3×</span></td><td class="nt">Tracks print media advertising expenses specifically for franchisees, under Adspend - Franchisee.</td></tr>
+</table>
+<h3>Asset Shipping <span class="rng">6080–6084</span></h3>
+<p class="blurb">Moving boats, party bikes, and trailers between locations or to buyers.</p>
+<table class="lined acct"><tr><th>Code</th><th>Account</th><th>What it's for</th></tr>
+<tr class="muted"><td class="ac">6080</td><td>Asset Shipping Fees <span class="badge dim">1×</span></td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">6081</td><td>Party Bike Shipping <span class="badge dim">4×</span></td><td class="nt">Expenses specifically for shipping party bikes.</td></tr>
+<tr><td class="ac">6082</td><td>Vessel Shipping </td><td class="nt">Costs incurred for the shipping of vessels.</td></tr>
+<tr><td class="ac">6083</td><td>Local Towing </td><td class="nt">Expenses related to local towing services.</td></tr>
+<tr><td class="ac">6084</td><td>Other Asset Shipping </td><td class="nt">Any other asset shipping expenses not specifically categorized elsewhere.</td></tr>
+</table>
+<h3>Banking Fees <span class="rng">6085–6088</span></h3>
+<p class="blurb">Bank service charges and wire/transfer fees. Interest is NOT here — see Interest (8xxx).</p>
+<table class="lined acct"><tr><th>Code</th><th>Account</th><th>What it's for</th></tr>
+<tr class="muted"><td class="ac">6085</td><td>Banking Fees </td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">6086</td><td>Banking Service Fees <span class="badge">Common</span></td><td class="nt">Fees charged for regular banking services.</td></tr>
+<tr><td class="ac">6087</td><td>Origination Fees </td><td class="nt">Costs related to the origination of new banking accounts, loans or services.</td></tr>
+<tr><td class="ac">6088</td><td>Other Banking Fees <span class="badge dim">7×</span></td><td class="nt">All other banking fees not categorized in specific accounts.</td></tr>
+</table>
+<h3>Customer Service &amp; Phones <span class="rng">6090–6094</span></h3>
+<p class="blurb">Outsourced customer-service staffing and phone/VOIP systems.</p>
+<table class="lined acct"><tr><th>Code</th><th>Account</th><th>What it's for</th></tr>
+<tr class="muted"><td class="ac">6090</td><td>Customer Service Fees <span class="badge">Common</span></td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">6091</td><td>Customer Service Center </td><td class="nt">Costs associated with operating a customer service center or contracting with a third party to operate customer service services.</td></tr>
+<tr><td class="ac">6092</td><td>Other Customer Service Fees </td><td class="nt">Any other customer service related fees not explicitly categorized.</td></tr>
+<tr><td class="ac">6093</td><td>VOIP Service <span class="badge">Common</span></td><td class="nt">Expenses for VOIP services used in customer service operations.</td></tr>
+<tr class="muted"><td class="ac">6094</td><td>Banking Charges (DO NOT USE) </td><td class="nt"><span class="hdr">⛔ Deprecated — never post here.</span></td></tr>
+</table>
+<h3>Dues &amp; Subscriptions (non-software) <span class="rng">6095–6098</span></h3>
+<p class="blurb">Memberships and non-software subscriptions. Software lives in the 6400s.</p>
+<table class="lined acct"><tr><th>Code</th><th>Account</th><th>What it's for</th></tr>
+<tr class="muted"><td class="ac">6095</td><td>Dues &amp; Subscriptions <span class="badge dim">1×</span></td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">6096</td><td>Membership Dues - Local </td><td class="nt">Dues paid for local memberships and associations.</td></tr>
+<tr><td class="ac">6097</td><td>Membership Dues - Professional <span class="badge dim">2×</span></td><td class="nt">Expenses for professional membership dues.</td></tr>
+<tr><td class="ac">6098</td><td>Other Subscriptions (nonsoftware) <span class="badge dim">7×</span></td><td class="nt">Expenses for subscriptions not related to software, such as magazines and industry publications.</td></tr>
+</table>
+<h3>Gifts &amp; Charity <span class="rng">6100–6104</span></h3>
+<table class="lined acct"><tr><th>Code</th><th>Account</th><th>What it's for</th></tr>
+<tr class="muted"><td class="ac">6100</td><td>Gifts &amp; Charity </td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">6101</td><td>Charitiable Deductible Contributions </td><td class="nt">Contributions to charity that are tax-deductible.</td></tr>
+<tr><td class="ac">6102</td><td>Client Gifts </td><td class="nt">Expenses for gifts given to clients.</td></tr>
+<tr><td class="ac">6103</td><td>Employee Gifts </td><td class="nt">Costs of gifts provided to employees.</td></tr>
+<tr><td class="ac">6104</td><td>Franchisee Gifts <span class="badge dim">4×</span></td><td class="nt">Expenses for gifts given to franchisees.</td></tr>
+</table>
+<h3>Guaranteed Payments <span class="rng">6110–6112</span></h3>
+<p class="blurb">Partner draws to Kai and Andrew — not normal payroll.</p>
+<table class="lined acct"><tr><th>Code</th><th>Account</th><th>What it's for</th></tr>
+<tr class="muted"><td class="ac">6110</td><td>Guaranteed Payments </td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">6111</td><td>Kai Kaapro GP <span class="badge dim">1×</span></td><td class="nt">Guaranteed payments specifically for Kai Kaapro.</td></tr>
+<tr><td class="ac">6112</td><td>Andrew Cole GP <span class="badge dim">1×</span></td><td class="nt">Guaranteed payments designated for Andrew Cole.</td></tr>
+</table>
+<h3>Marketing &amp; Design <span class="rng">6115–6120</span></h3>
+<p class="blurb">Creative production: design, video/photo, events, promo materials, SEO.</p>
+<table class="lined acct"><tr><th>Code</th><th>Account</th><th>What it's for</th></tr>
+<tr class="muted"><td class="ac">6115</td><td>Marketing &amp; Design </td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">6116</td><td>Graphic Design <span class="badge dim">1×</span></td><td class="nt">Expenses specifically related to graphic design services.</td></tr>
+<tr><td class="ac">6117</td><td>Video Production and Photography </td><td class="nt">Costs incurred for video production and photography services.</td></tr>
+<tr><td class="ac">6118</td><td>Special Events <span class="badge dim">1×</span></td><td class="nt">Expenses related to organizing and hosting special events.</td></tr>
+<tr><td class="ac">6119</td><td>Promotional Materials </td><td class="nt">Costs for creating and distributing promotional materials.</td></tr>
+<tr><td class="ac">6120</td><td>SEO <span class="badge dim">5×</span></td><td class="nt">Expenses related to paying for SEO services or tools</td></tr>
+</table>
+<h3>Meals &amp; Entertainment <span class="rng">6125–6127</span></h3>
+<p class="blurb"><b>Local</b> meals only. Meals while traveling go under Travel (6360).</p>
+<table class="lined acct"><tr><th>Code</th><th>Account</th><th>What it's for</th></tr>
+<tr class="muted"><td class="ac">6125</td><td>Meals &amp; Entertainment </td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">6126</td><td>Meals - Local <span class="badge dim">7×</span></td><td class="nt">Expenses for local meals, such as business lunches and dinners.</td></tr>
+<tr><td class="ac">6127</td><td>Entertainment - Local <span class="badge dim">1×</span></td><td class="nt">Costs for local entertainment activities, like outings and events.</td></tr>
+</table>
+<h3>Rent &amp; Lease <span class="rng">6130–6140</span></h3>
+<p class="blurb">Real property and asset leases. Boat slips = Slip Lease; storage units = Storage Lease.</p>
+<table class="lined acct"><tr><th>Code</th><th>Account</th><th>What it's for</th></tr>
+<tr class="muted"><td class="ac">6130</td><td>Rent or Lease </td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">6131</td><td>Leaseholds </td><td class="nt">Expenses related to leasehold rents of real property</td></tr>
+<tr><td class="ac">6131-1</td><td>Manufacturing Line Fee </td><td class="nt">Fee paid for use of manufacturing space in a larger facility.</td></tr>
+<tr><td class="ac">6132</td><td>Building Lease <span class="badge dim">4×</span></td><td class="nt">Costs specifically for leasing a building or office space.</td></tr>
+<tr><td class="ac">6133</td><td>Storage Lease <span class="badge">Common</span></td><td class="nt">Lease payments for storage facilities.</td></tr>
+<tr><td class="ac">6134</td><td>Slip Lease <span class="badge dim">7×</span></td><td class="nt">Expenses for leasing boat slips or similar maritime facilities.</td></tr>
+<tr><td class="ac">6135</td><td>Other Rent or Lease </td><td class="nt">Other rent or lease expenses not specifically categorized.</td></tr>
+<tr><td class="ac">6135-1</td><td>Office Lease <span class="badge dim">1×</span></td><td class="nt"></td></tr>
+<tr class="muted"><td class="ac">6136</td><td>Asset &amp; Equipment Leases </td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">6137</td><td>Party Bike Lease </td><td class="nt">Costs associated with leasing party bikes, categorized under Asset &amp; Equipment Leases.</td></tr>
+<tr><td class="ac">6138</td><td>Commercial Vessel Lease </td><td class="nt">Expenses for leasing commercial vessels, falling under Asset &amp; Equipment Leases.</td></tr>
+<tr><td class="ac">6139</td><td>Heavy Equipment Lease </td><td class="nt">Costs incurred from leasing heavy equipment, placed under Asset &amp; Equipment Leases.</td></tr>
+<tr><td class="ac">6140</td><td>Short Term Equipment Rental </td><td class="nt">An account to track expenses for shorter term equipment rentals</td></tr>
+</table>
+<h3>Personnel &amp; Payroll <span class="rng">6150–6195</span></h3>
+<p class="blurb">Wages by role, payroll taxes, benefits, recruiting, training, and contractors. Most salary lines are posted by Payroll, not by expense-matching — you'll mostly touch Recruiting, Training, Contractors, Drug Consortium, and Payroll Software.</p>
+<table class="lined acct"><tr><th>Code</th><th>Account</th><th>What it's for</th></tr>
+<tr class="muted"><td class="ac">6150</td><td>Personnel Expenses </td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr class="muted"><td class="ac">6151</td><td>Payroll Expenses </td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr class="muted"><td class="ac">6152</td><td>Franchise Administration Payroll </td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">6153</td><td>Executive Assistant Salary </td><td class="nt">This account is used for recording the salaries of executive assistants within the organization.</td></tr>
+<tr><td class="ac">6154</td><td>Director of Marketing Salary </td><td class="nt">Expenses related to the salary of the Director of Marketing are recorded here.</td></tr>
+<tr><td class="ac">6155</td><td>Operations Specialist Salary <span class="badge dim">2×</span></td><td class="nt">This account tracks the salary expenses for operations specialists.</td></tr>
+<tr><td class="ac">6156</td><td>Franchise Admin Payroll Taxes </td><td class="nt">This account is used for payroll taxes specifically related to franchise administration personnel.</td></tr>
+<tr class="muted"><td class="ac">6160</td><td>Operations Management Payroll </td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">6161</td><td>City Manager Salary <span class="badge dim">1×</span></td><td class="nt">Expenses for the salary of a city manager are recorded in this account.</td></tr>
+<tr><td class="ac">6162</td><td>Regional Manager Salary </td><td class="nt">This account is designated for the salary expenses of regional managers.</td></tr>
+<tr><td class="ac">6163</td><td>Operations Management Payroll Taxes <span class="badge dim">1×</span></td><td class="nt">Payroll tax expenses for operations management staff are recorded here.</td></tr>
+<tr class="muted"><td class="ac">6165</td><td>Operations Administration Payroll </td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">6166</td><td>Check-in Agent Wages </td><td class="nt">This account tracks the wages paid to check-in agents.</td></tr>
+<tr><td class="ac">6167</td><td>Other Operations Admin Wages </td><td class="nt">Expenses for wages of other operations administration staff are recorded here.</td></tr>
+<tr><td class="ac">6168</td><td>Operations Admin Payroll Taxes </td><td class="nt">This account is used for payroll expenses of operations administration staff.</td></tr>
+<tr class="muted"><td class="ac">6170</td><td>Repair &amp; Maintenance Payroll </td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">6171</td><td>Technician Salary </td><td class="nt">This account is used for recording the salaries of technicians.</td></tr>
+<tr><td class="ac">6172</td><td>Technician Wages </td><td class="nt">Expenses for the wages of technicians are tracked in this account.</td></tr>
+<tr><td class="ac">6173</td><td>Technician Payroll Taxes </td><td class="nt">Payroll tax expenses for technicians are recorded here.</td></tr>
+<tr><td class="ac">6174</td><td>Prior Year Payroll </td><td class="nt">This account is for recording payroll expenses from the previous year.</td></tr>
+<tr class="muted"><td class="ac">6180</td><td>Staff Benefits </td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">6181</td><td>HSA Contribution </td><td class="nt">Expenses for contributions to Health Savings Accounts (HSAs) for staff are tracked here.</td></tr>
+<tr><td class="ac">6182</td><td>Healthcare Reimbursement <span class="badge dim">2×</span></td><td class="nt">This account is used for expenses related to reimbursing healthcare costs for staff.</td></tr>
+<tr><td class="ac">6183</td><td>Tech Reimbursement </td><td class="nt">Expenses for technology-related reimbursements for staff are recorded in this account.</td></tr>
+<tr><td class="ac">6184</td><td>Cell Credit </td><td class="nt">This account tracks expenses related to providing cell phone credits to staff.</td></tr>
+<tr><td class="ac">6185</td><td>Other Staff Benefits </td><td class="nt">Expenses for other various staff benefits not categorized elsewhere are recorded here.</td></tr>
+<tr><td class="ac">6185-1</td><td>Credit Card Fees </td><td class="nt">Service fees for transactions , balance transfer fees, annual credit fees and other charges levied on a credit card are recorded into the credit card account…</td></tr>
+<tr><td class="ac">6190</td><td>Staff Recruiting <span class="badge">Common</span></td><td class="nt">This account is for expenses related to recruiting staff.</td></tr>
+<tr><td class="ac">6191</td><td>Staff Training <span class="badge dim">2×</span></td><td class="nt">Expenses for staff training and development are tracked in this account.</td></tr>
+<tr><td class="ac">6192</td><td>Independent Contractors <span class="badge dim">7×</span></td><td class="nt">This account is used for expenses related to hiring independent contractors.</td></tr>
+<tr><td class="ac">6193</td><td>Drug Consortium Fee <span class="badge dim">3×</span></td><td class="nt">Expenses for fees related to drug consortiums for captains and crew</td></tr>
+<tr><td class="ac">6194</td><td>Payroll Software <span class="badge">Common</span></td><td class="nt">This account tracks expenses for software used in managing payroll.</td></tr>
+<tr><td class="ac">6195</td><td>Other Personnel Expenses </td><td class="nt">A catch-all account for other personnel-related expenses not categorized elsewhere.</td></tr>
+</table>
+<h3>Professional Services <span class="rng">6200–6227</span></h3>
+<p class="blurb">Accounting, bookkeeping, tax, and legal. Legal is split by matter type.</p>
+<table class="lined acct"><tr><th>Code</th><th>Account</th><th>What it's for</th></tr>
+<tr><td class="ac">6200</td><td>Professional Services </td><td class="nt">An account used for expenses related to various professional services rendered to the company.</td></tr>
+<tr class="muted"><td class="ac">6210</td><td>Accounting Expenses </td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">6211</td><td>Acccounting Software <span class="badge">Common</span></td><td class="nt">Expenses for software used in accounting processes are recorded here.</td></tr>
+<tr><td class="ac">6212</td><td>Accounting Services <span class="badge dim">1×</span></td><td class="nt">This account is for expenses incurred from external accounting services.</td></tr>
+<tr><td class="ac">6213</td><td>Tax Preparation Services </td><td class="nt">Costs associated with tax preparation services are tracked in this account.</td></tr>
+<tr><td class="ac">6214</td><td>Bookkeeping Services <span class="badge">Common</span></td><td class="nt">Expenses for bookkeeping services, either internal or outsourced, are recorded here.</td></tr>
+<tr><td class="ac">6215</td><td>Legal Fees </td><td class="nt">A general account for various legal fees incurred by the company.</td></tr>
+<tr><td class="ac">6216</td><td>Legal Services - Transactional </td><td class="nt">Costs related to transactional legal services, like contracts or negotiations.</td></tr>
+<tr><td class="ac">6217</td><td>Legal Services - Franchise <span class="badge">Common</span></td><td class="nt">Expenses associated with legal matters specific to franchise operations.</td></tr>
+<tr><td class="ac">6218</td><td>Legal Services - IP </td><td class="nt">Costs for legal services related to intellectual property.</td></tr>
+<tr><td class="ac">6219</td><td>Legal Services - Entity <span class="badge dim">1×</span></td><td class="nt">Legal fees associated with corporate entity matters.</td></tr>
+<tr><td class="ac">6220</td><td>Legal Services - Other </td><td class="nt">A catch-all account for other legal services not categorized elsewhere.</td></tr>
+<tr><td class="ac">6226</td><td>Architecture &amp; Engineering Expenses </td><td class="nt">Costs related to architectural and engineering services.</td></tr>
+<tr><td class="ac">6227</td><td>Other Professional Services <span class="badge dim">1×</span></td><td class="nt">Expenses for professional services not specifically categorized in other accounts.</td></tr>
+</table>
+<h3>Office &amp; Facility <span class="rng">6230–6238</span></h3>
+<table class="lined acct"><tr><th>Code</th><th>Account</th><th>What it's for</th></tr>
+<tr class="muted"><td class="ac">6230</td><td>Office &amp; Facility Expenses </td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">6231</td><td>Janitorial Expenses </td><td class="nt">Costs associated with cleaning and maintaining office spaces and other facilities.</td></tr>
+<tr><td class="ac">6232</td><td>Employee Uniforms </td><td class="nt">Expenses for purchasing and maintaining employee uniforms.</td></tr>
+<tr><td class="ac">6233</td><td>Stationary and Printing <span class="badge dim">4×</span></td><td class="nt">Costs for stationery, printing materials, and related services.</td></tr>
+<tr><td class="ac">6234</td><td>Office Supplies <span class="badge">Common</span></td><td class="nt">General expenses for office supplies.</td></tr>
+<tr><td class="ac">6235</td><td>Furniture &amp; Fixtures </td><td class="nt">Costs associated with office furniture and fixtures.</td></tr>
+<tr><td class="ac">6236</td><td>Warehouse Equipment &amp; Supplies </td><td class="nt">Expenses for equipment and supplies used in warehouse operations.</td></tr>
+<tr><td class="ac">6237</td><td>Safety Equipment </td><td class="nt">Expenses for equipment and supplies used for safety equipment.</td></tr>
+<tr><td class="ac">6238</td><td>Watercooler Service </td><td class="nt">Water cooler service for employees and customers</td></tr>
+</table>
+<h3>Insurance <span class="rng">6240–6255</span></h3>
+<p class="blurb">Split by policy type. Boat liability = Commercial Vessel Liability; vehicles = Commercial Vehicle Liability.</p>
+<table class="lined acct"><tr><th>Code</th><th>Account</th><th>What it's for</th></tr>
+<tr class="muted"><td class="ac">6240</td><td>Insurance Expenses </td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">6241</td><td>Bonds </td><td class="nt">Costs for purchasing or maintaining bonds.</td></tr>
+<tr><td class="ac">6242</td><td>Commercial Vehicle Liability <span class="badge dim">3×</span></td><td class="nt">Insurance costs related to commercial vehicles.</td></tr>
+<tr><td class="ac">6243</td><td>Commercial Vessel Liability <span class="badge">Common</span></td><td class="nt">Liability insurance expenses for commercial vessels.</td></tr>
+<tr><td class="ac">6244</td><td>Cyber Insurance </td><td class="nt">Expenses for insurance policies covering cyber risks.</td></tr>
+<tr><td class="ac">6245</td><td>Dram Shop </td><td class="nt">Insurance costs related to dram shop liability</td></tr>
+<tr><td class="ac">6246</td><td>General Liability <span class="badge dim">2×</span></td><td class="nt">General liability insurance expenses.</td></tr>
+<tr><td class="ac">6247</td><td>Inland Marine </td><td class="nt">Costs associated with inland marine insurance.</td></tr>
+<tr><td class="ac">6248</td><td>Key Man Insurance <span class="badge">Common</span></td><td class="nt">Expenses for insurance policies covering key individuals in the company.</td></tr>
+<tr><td class="ac">6249</td><td>Manufacturing Liability </td><td class="nt">Liability insurance costs specifically for manufacturing activities.</td></tr>
+<tr><td class="ac">6250</td><td>Motor Vehicle Insurance </td><td class="nt">Insurance expenses for motor vehicles.</td></tr>
+<tr><td class="ac">6251</td><td>Premises Liability </td><td class="nt">Costs for insurance covering liabilities related to premises.</td></tr>
+<tr><td class="ac">6252</td><td>Trailer Insurance </td><td class="nt">Insurance costs for trailers.</td></tr>
+<tr><td class="ac">6253</td><td>Workers Compensation <span class="badge dim">1×</span></td><td class="nt">Expenses for workers' compensation insurance.</td></tr>
+<tr><td class="ac">6254</td><td>Other Insurance <span class="badge dim">3×</span></td><td class="nt">A catch-all account for other insurance-related expenses.</td></tr>
+<tr><td class="ac">6255</td><td>E&amp;O Insurance <span class="badge dim">1×</span></td><td class="nt"></td></tr>
+</table>
+<h3>Licensing, Taxes &amp; Permits <span class="rng">6260–6279</span></h3>
+<p class="blurb">Business licenses, permits, registrations, and non-income state taxes.</p>
+<table class="lined acct"><tr><th>Code</th><th>Account</th><th>What it's for</th></tr>
+<tr class="muted"><td class="ac">6260</td><td>Licensing, Taxes &amp; Permits </td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">6261</td><td>ABC License </td><td class="nt">Costs associated with obtaining and maintaining an alcohol beverage control license.</td></tr>
+<tr><td class="ac">6262</td><td>City Operating Permit </td><td class="nt">Expenses for city operating permits.</td></tr>
+<tr><td class="ac">6263</td><td>Driver Permit Fees </td><td class="nt">Costs related to obtaining or renewing driver permits.</td></tr>
+<tr><td class="ac">6264</td><td>Local Inspection Fees </td><td class="nt">Expenses for various types of inspections.</td></tr>
+<tr><td class="ac">6265</td><td>State LLC Fees <span class="badge dim">3×</span></td><td class="nt">Costs associated with state fees for maintaining an LLC.</td></tr>
+<tr><td class="ac">6266</td><td>Titling and Registration Fees <span class="badge dim">2×</span></td><td class="nt">Expenses for vehicle titling and registration.</td></tr>
+<tr><td class="ac">6267</td><td>Franchise Registration Fees </td><td class="nt">Costs related to registering a franchise with relevant authorities.</td></tr>
+<tr><td class="ac">6268</td><td>USCG Inspection Fees </td><td class="nt">Expenses for inspections conducted by the United States Coast Guard.</td></tr>
+<tr><td class="ac">6270</td><td>State Franchise Taxes </td><td class="nt">State taxes for running a business (not income)</td></tr>
+<tr><td class="ac">6271</td><td>Other State &amp; Local Taxes </td><td class="nt">Other state and local taxes</td></tr>
+<tr><td class="ac">6277</td><td>Property Taxes </td><td class="nt">A general account for various property taxes</td></tr>
+<tr><td class="ac">6279</td><td>Other Licensing &amp; Permits <span class="badge dim">6×</span></td><td class="nt">A general account for various other licensing and permit-related expenses.</td></tr>
+</table>
+<h3>Repair &amp; Maintenance <span class="rng">6300–6335</span></h3>
+<p class="blurb">Parts, materials, and service for vessels, party bikes, vehicles, and facilities. Many are header accounts — post to the specific parts/labor line.</p>
+<table class="lined acct"><tr><th>Code</th><th>Account</th><th>What it's for</th></tr>
+<tr class="muted"><td class="ac">6300</td><td>Repair &amp; Maintenance </td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr class="muted"><td class="ac">6305</td><td>Asset Maintenance <span class="badge dim">1×</span></td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr class="muted"><td class="ac">6306</td><td>Party Bike Maintenance </td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">6307</td><td>Party Bike Repair Parts &amp; Materials <span class="badge dim">7×</span></td><td class="nt">Costs of parts and materials needed for repairing party bikes.</td></tr>
+<tr><td class="ac">6308</td><td>Party Bikes Maintenance Labor </td><td class="nt">3rr party labor costs associated with the maintenance of party bikes.</td></tr>
+<tr class="muted"><td class="ac">6309</td><td>Commercial Vessel Maintenance <span class="badge dim">1×</span></td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">6310</td><td>Vessel Repair Parts &amp; Materials <span class="badge">Common</span></td><td class="nt">Costs for parts and materials used in the repair of commercial vessels.</td></tr>
+<tr><td class="ac">6311</td><td>Boat Lift Fees </td><td class="nt">Expenses for using boat lifts in the maintenance or docking of vessels.</td></tr>
+<tr><td class="ac">6312</td><td>COI Equipment </td><td class="nt">Costs for equipment required for the Certificate of Inspection (COI) for vessels.</td></tr>
+<tr><td class="ac">6313</td><td>Outboard Motor Service </td><td class="nt">Service expenses for the outboard motors of commercial vessels.</td></tr>
+<tr><td class="ac">6314</td><td>Bottom Painting </td><td class="nt">Costs associated with painting the bottom of vessels, for maintenance and protection.</td></tr>
+<tr><td class="ac">6315</td><td>Hull Cleaning </td><td class="nt">Expenses for cleaning the hulls of vessels.</td></tr>
+<tr><td class="ac">6316</td><td>Vessel R&amp;M Supplies </td><td class="nt">Costs for various supplies needed in the maintenance of vessels.</td></tr>
+<tr><td class="ac">6320</td><td>Motor Vehicle Maintenance <span class="badge dim">1×</span></td><td class="nt">Expenses related to the upkeep and repair of company motor vehicles.</td></tr>
+<tr class="muted"><td class="ac">6325</td><td>Equipment &amp; Fixture Maintenance </td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr class="muted"><td class="ac">6330</td><td>Facilities Maintenance <span class="badge dim">1×</span></td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">6331</td><td>Leasehold Repair &amp; Maintenance </td><td class="nt">Costs associated with the repair and maintenance of leased properties or facilities.</td></tr>
+<tr><td class="ac">6335</td><td>Small Tools &amp; Equipment <span class="badge">Common</span></td><td class="nt">Expenses for small tools and equipment used in repair and maintenance tasks.</td></tr>
+</table>
+<h3>Travel <span class="rng">6350–6367</span></h3>
+<p class="blurb">Business travel. <b>Conference</b> travel for our annual event has its own 6900 accounts — use those instead when the trip is for TSE Conference.</p>
+<table class="lined acct"><tr><th>Code</th><th>Account</th><th>What it's for</th></tr>
+<tr class="muted"><td class="ac">6350</td><td>Travel Expenses </td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">6351</td><td>Airfare <span class="badge">Common</span></td><td class="nt">Costs of air travel for business purposes.</td></tr>
+<tr><td class="ac">6352</td><td>Auto Rental <span class="badge dim">4×</span></td><td class="nt">Expenses for renting vehicles for business travel.</td></tr>
+<tr><td class="ac">6353</td><td>Baggage Fees <span class="badge dim">2×</span></td><td class="nt">Costs associated with baggage fees during travel.</td></tr>
+<tr><td class="ac">6354</td><td>Conference Admissions <span class="badge dim">2×</span></td><td class="nt">Expenses for attending conferences, including admission fees.</td></tr>
+<tr><td class="ac">6355</td><td>Conference Room Rentals </td><td class="nt">Costs for renting conference rooms during business travels.</td></tr>
+<tr><td class="ac">6356</td><td>Employee Travel Reimbursement <span class="badge">Common</span></td><td class="nt">Reimbursements to employees for business travel expenses and mileage.</td></tr>
+<tr><td class="ac">6357</td><td>Entertainment </td><td class="nt">Expenses for entertainment purposes during business travel.</td></tr>
+<tr><td class="ac">6358</td><td>Fuel <span class="badge">Common</span></td><td class="nt">Costs for fuel during business trips.</td></tr>
+<tr><td class="ac">6359</td><td>Hotels &amp; Accomodations <span class="badge">Common</span></td><td class="nt">Expenses for hotel stays and accommodations during business travel.</td></tr>
+<tr><td class="ac">6360</td><td>Travel Meals <span class="badge dim">2×</span></td><td class="nt">Costs of meals during business travel.</td></tr>
+<tr><td class="ac">6361</td><td>Parking <span class="badge">Common</span></td><td class="nt">Parking fees incurred during business travel.</td></tr>
+<tr><td class="ac">6362</td><td>Per Diem <span class="badge">Common</span></td><td class="nt">Daily allowances given to employees for expenses during travel.</td></tr>
+<tr><td class="ac">6363</td><td>Travel Tips/Gratuity <span class="badge dim">2×</span></td><td class="nt">Tips and gratuities given during business travels.</td></tr>
+<tr><td class="ac">6364</td><td>Travel Permits </td><td class="nt">Costs for obtaining travel permits.</td></tr>
+<tr><td class="ac">6365</td><td>Taxis &amp; Uber <span class="badge">Common</span></td><td class="nt">Expenses for taxi and ride-sharing services during business travels.</td></tr>
+<tr><td class="ac">6367</td><td>Tolls <span class="badge dim">1×</span></td><td class="nt">Toll fees incurred during business travel.</td></tr>
+</table>
+<h3>Software <span class="rng">6401–6411</span></h3>
+<p class="blurb">All SaaS. When two software buckets could fit, match how the same vendor was categorized last time.</p>
+<table class="lined acct"><tr><th>Code</th><th>Account</th><th>What it's for</th></tr>
+<tr><td class="ac">6401</td><td>Zoho One <span class="badge dim">4×</span></td><td class="nt">Costs associated with using the Zoho One suite of business applications.</td></tr>
+<tr><td class="ac">6402</td><td>Analytics/Data <span class="badge">Common</span></td><td class="nt">Expenses for software used in data analytics.</td></tr>
+<tr><td class="ac">6403</td><td>Email Hosting <span class="badge">Common</span></td><td class="nt">Costs for services related to hosting company email systems.</td></tr>
+<tr><td class="ac">6404</td><td>Franchise Technology Fee <span class="badge dim">7×</span></td><td class="nt">Expenses associated with technology fees that the frachisor uses for the use of software and technology.</td></tr>
+<tr><td class="ac">6405</td><td>Marketing Software <span class="badge">Common</span></td><td class="nt">Expenses related to software used for marketing purposes, like email marketing tools, social media management platforms, and analytics tools.</td></tr>
+<tr><td class="ac">6406</td><td>Productivity Software <span class="badge">Common</span></td><td class="nt">Costs for software that increases productivity, such as project management tools, time tracking apps, or collaboration software.</td></tr>
+<tr><td class="ac">6408</td><td>AI <span class="badge">Common</span></td><td class="nt">Costs for artificial intelligence software or platforms, which may include machine learning tools, chatbots, or data analysis tools.</td></tr>
+<tr><td class="ac">6410</td><td>Other Software Subscriptions <span class="badge">Common</span></td><td class="nt">catch-all account for expenses on software subscriptions not categorized in other specific accounts.</td></tr>
+<tr><td class="ac">6411</td><td>Office Suite Software <span class="badge">Common</span></td><td class="nt">Costs for office suite software subscriptions or purchases, including programs for word processing, spreadsheets, presentations, and more.</td></tr>
+</table>
+<h3>Utilities <span class="rng">6422–6426</span></h3>
+<table class="lined acct"><tr><th>Code</th><th>Account</th><th>What it's for</th></tr>
+<tr><td class="ac">6422</td><td>Internet <span class="badge dim">1×</span></td><td class="nt">Expenses for internet service providers, covering broadband or fiber connections for company operations.</td></tr>
+<tr><td class="ac">6423</td><td>Gas <span class="badge dim">6×</span></td><td class="nt">Costs for gas utilities, possibly for heating or fuel for company facilities.</td></tr>
+<tr><td class="ac">6426</td><td>Other Utilities <span class="badge">Common</span></td><td class="nt">Miscellaneous utility expenses not specifically categorized in other accounts.</td></tr>
+</table>
+<h3>Warranty Costs <span class="rng">6451–6451</span></h3>
+<table class="lined acct"><tr><th>Code</th><th>Account</th><th>What it's for</th></tr>
+<tr><td class="ac">6451</td><td>Warranty Parts &amp; Materials <span class="badge dim">1×</span></td><td class="nt">Costs for parts and materials used in fulfilling warranty service requests.</td></tr>
+</table>
+<h3>Website Administration <span class="rng">6501–6504</span></h3>
+<p class="blurb">Domains, hosting, dev, and other web fees for OUR sites. Franchisee web work is a COGS account (5302).</p>
+<table class="lined acct"><tr><th>Code</th><th>Account</th><th>What it's for</th></tr>
+<tr><td class="ac">6501</td><td>Domain Names <span class="badge">Common</span></td><td class="nt">Costs for purchasing and renewing domain names for the company's websites.</td></tr>
+<tr><td class="ac">6502</td><td>Website Development <span class="badge">Common</span></td><td class="nt">Expenses related to the development, design, and updates of company websites.</td></tr>
+<tr><td class="ac">6503</td><td>Website Hosting <span class="badge">Common</span></td><td class="nt">Costs for hosting services for the company's websites, which may include shared, dedicated, or cloud hosting services.</td></tr>
+<tr><td class="ac">6504</td><td>Other Web Fees <span class="badge dim">5×</span></td><td class="nt">Miscellaneous expenses related to website administration not categorized elsewhere.</td></tr>
+</table>
+<h3>Franchise Operation Fees <span class="rng">6810–6830</span></h3>
+<p class="blurb">What our corporate-owned units pay UP to the franchisor (tech fees, royalties, ad fund). The mirror image of the 4060 revenue accounts.</p>
+<table class="lined acct"><tr><th>Code</th><th>Account</th><th>What it's for</th></tr>
+<tr><td class="ac">6810</td><td>Operation Tech Fees <span class="badge">Common</span></td><td class="nt"></td></tr>
+<tr><td class="ac">6820</td><td>Operation Royalties Payment <span class="badge">Common</span></td><td class="nt"></td></tr>
+<tr><td class="ac">6830</td><td>Operation Ad Fund Payment <span class="badge dim">1×</span></td><td class="nt"></td></tr>
+</table>
+<h3>TourScale Conference (annual event) <span class="rng">6901–6904</span></h3>
+<p class="blurb">Everything for the company's annual conference. Tag Department = Operations and the right Entity.</p>
+<table class="lined acct"><tr><th>Code</th><th>Account</th><th>What it's for</th></tr>
+<tr><td class="ac">6901</td><td>TSE Conference - Travel <span class="badge">Common</span></td><td class="nt"></td></tr>
+<tr><td class="ac">6902</td><td>TSE Conference - Hotel <span class="badge">Common</span></td><td class="nt"></td></tr>
+<tr><td class="ac">6903</td><td>TSE Conference - Supplies <span class="badge">Common</span></td><td class="nt"></td></tr>
+<tr><td class="ac">6904</td><td>TSE Conference - Conference Room <span class="badge dim">1×</span></td><td class="nt"></td></tr>
+</table>
+<h3>Other Operating Expenses <span class="rng">6997–6999-9</span></h3>
+<p class="blurb">Catch-alls and the Uncategorized parking account.</p>
+<table class="lined acct"><tr><th>Code</th><th>Account</th><th>What it's for</th></tr>
+<tr><td class="ac">6997</td><td>Other Expenses </td><td class="nt">Any minor expense on activities unrelated to primary business operations is recorded under the other expense account.</td></tr>
+<tr><td class="ac">6998</td><td>Bad Debt </td><td class="nt">Any amount which is lost and is unrecoverable is recorded into the bad debt account.</td></tr>
+<tr><td class="ac">6999</td><td>Purchase Discounts </td><td class="nt">Tracks any reduction that your vendor offers on your purchases. Some vendors also provide them to encourage quick payment settlement.</td></tr>
+<tr><td class="ac">6999-9</td><td>Uncategorized </td><td class="nt">This account can be used to temporarily track expenses that are yet to be identified and classified into a particular category</td></tr>
+</table>
+<h3>Cost of Goods Sold <span class="rng">5000s</span></h3>
+<p class="blurb">Direct cost of delivering a tour or building/selling an asset. These are hidden in the account-search filter (a Zoho quirk) but are selectable when you categorize — just type the name. Grouped below by their parent.</p>
+<table class="lined acct"><tr><th>Code</th><th>Account</th><th>What it's for</th></tr>
+<tr class="muted"><td class="ac">5020</td><td>Tour Supplies &amp; Materials <span class="badge dim">1×</span></td><td class="nt"><span class="hdr">▸ Header / parent group — do not post directly here.</span></td></tr>
+<tr><td class="ac">5021</td><td>Ice <span class="badge">Common</span></td><td class="nt">Under 'Tour Supplies &amp; Materials', this account specifically tracks expenses for ice used in tours, an essential supply for certain tour operations.</td></tr>
+<tr><td class="ac">5022</td><td>Vessel Fuel <span class="badge">Common</span></td><td class="nt">This account, part of 'Tour Supplies &amp; Materials', records the costs incurred for fueling vessels used in tours.</td></tr>
+<tr><td class="ac">5024</td><td>Other Tour Supplies <span class="badge">Common</span></td><td class="nt">This account captures all other miscellaneous supplies used in tours that are not specifically categorized in other accounts under 'Tour Supplies &amp; Materials'.</td></tr>
+<tr><td class="ac">5082</td><td>Marina Commissions <span class="badge dim">1×</span></td><td class="nt">Part of 'Finance Commissions', it tracks commissions paid to marinas in the course of business operations.</td></tr>
+<tr><td class="ac">5083</td><td>Partner Commissions <span class="badge dim">1×</span></td><td class="nt">This account, within 'Finance Commissions', is used for recording commissions paid to business partners.</td></tr>
+<tr><td class="ac">5110</td><td>Sales Tax Paid <span class="badge dim">6×</span></td><td class="nt">This account sales tax paid for revenue collected</td></tr>
+<tr><td class="ac">5115</td><td>Merchant, Processing &amp; Gateway Fees <span class="badge dim">2×</span></td><td class="nt"></td></tr>
+<tr><td class="ac">5201</td><td>A&amp;M - Tiki Boat 18 <span class="badge dim">2×</span></td><td class="nt">This account tracks the cost of goods sold specifically associated with the manufacturing, assembly, and maintenance of the Tiki Boat 18 model paid to A&amp;M Ma…</td></tr>
+<tr><td class="ac">5202-1</td><td>Cruisin Tikis - Tiki Boat <span class="badge">Common</span></td><td class="nt"></td></tr>
+<tr><td class="ac">5210</td><td>Postage &amp; Freight <span class="badge">Common</span></td><td class="nt">Dedicated to the costs of postage and freight in the manufacturing process. This encompasses expenses for shipping materials, sending documents, and any othe…</td></tr>
+<tr><td class="ac">5210-1</td><td>Pass Through Shipping COGS <span class="badge dim">5×</span></td><td class="nt"></td></tr>
+<tr><td class="ac">5211</td><td>Other Manufacturing COGS <span class="badge dim">4×</span></td><td class="nt">This account captures any other manufacturing costs of goods sold that do not fall into the specific categories within 'Manufacturing COGS'. It includes misc…</td></tr>
+<tr><td class="ac">5220</td><td>Franchise Training Expenses <span class="badge dim">4×</span></td><td class="nt"></td></tr>
+<tr><td class="ac">5301</td><td>Zoho One - Franchisee <span class="badge dim">1×</span></td><td class="nt">Zoho user fees associated with franchisee users</td></tr>
+<tr><td class="ac">5302</td><td>Franchisee Web Development <span class="badge dim">1×</span></td><td class="nt">Web development fees associated with the creation and maintenance of franchisee websites</td></tr>
+<tr><td class="ac">5306</td><td>Front Porch - Pedal Pub <span class="badge dim">1×</span></td><td class="nt"></td></tr>
+<tr><td class="ac">5360</td><td>Cruisin' Tikis Ad Fund COGS <span class="badge dim">1×</span></td><td class="nt"></td></tr>
+<tr><td class="ac">5364</td><td>CT - Digital Adspend <span class="badge dim">6×</span></td><td class="nt"></td></tr>
+<tr><td class="ac">5365</td><td>CT - Marketing Software <span class="badge dim">2×</span></td><td class="nt"></td></tr>
+<tr><td class="ac">5367</td><td>CT - Conference Expenses <span class="badge dim">1×</span></td><td class="nt"></td></tr>
+<tr><td class="ac">5430</td><td>TS - Other Advertising <span class="badge dim">4×</span></td><td class="nt"></td></tr>
+<tr><td class="ac">5444</td><td>Tomis - Cruisin' Tikis <span class="badge dim">2×</span></td><td class="nt"></td></tr>
+<tr><td class="ac">5445</td><td>Tomis - Pedal Pub <span class="badge dim">1×</span></td><td class="nt"></td></tr>
+</table>
+<h3>Interest & Other Expense <span class="rng">8000s</span></h3>
+<p class="blurb">Below the operating line. Interest is the most common — and remember the loan/credit-card <i>principal</i> is not an expense at all (it pays down a liability); only the interest portion posts here.</p>
+<table class="lined acct"><tr><th>Code</th><th>Account</th><th>What it's for</th></tr>
+<tr><td class="ac">8011</td><td>Credit Card Interest <span class="badge">Common</span></td><td class="nt">Interest paid from credit card balances</td></tr>
+<tr><td class="ac">8012</td><td>Loan Interest <span class="badge">Common</span></td><td class="nt">Interest paid from loans</td></tr>
+<tr><td class="ac">8025</td><td>State &amp; Local Income Taxes <span class="badge dim">2×</span></td><td class="nt"></td></tr>
+</table>
+
+
+<h2 id="s4"><span class="num">4.</span> Reporting tags</h2>
+<p>Up to <strong>5 tags</strong> per expense; four are <strong>mandatory</strong>. They answer <em>who, where, and which team</em>.</p>
+<div class="callout warn"><div class="lbl">Most of the picklist is dead — ignore it</div>The Books dropdowns still list <b>every entity, market and location we've ever had</b> — including corporate stores we've since sold and an old, more complex entity structure. <b>Those are kept only so prior-year reports still work; you should not pick them.</b> The tables below show the <b>only options actually in use in 2026</b>. If the right answer isn't in these lists, stop and ask Kai rather than guessing from the full dropdown.</div>
+<table class="lined"><tr><th>Tag</th><th>Req?</th><th>Live options actually in use (2026)</th></tr>
+<tr><td><b>Entity</b><div class="nt" style="font-weight:400">which legal LLC</div></td><td>✅</td><td>TourScale Enterprises, LLC · Trolley Pub of North Carolina, LLC · TourScale Franchising, LLC · Kaapro &amp; Cole Ventures, LLC · Capitol Pedicycle, LLC · TourCraft, LLC <span class="nt">(6 of ~12 in the dropdown)</span></td></tr>
+<tr><td><b>Business Unit</b><div class="nt" style="font-weight:400">operating brand/market</div></td><td>✅</td><td><b>Main:</b> TourScale Enterprises · TourScale Franchising · TP Raleigh · TPNC · CT Wilmington · TourCraft · TP Madison · TP Wilmington · PP Madison.<br /><b>Occasional / winding down:</b> PP Daytona Beach · TKP Ponce Inlet · CT Daytona Beach · TP Durham · TP Charlotte · KCH Sales. <span class="nt">(everything else in the list is retired)</span></td></tr>
+<tr><td><b>Location</b><div class="nt" style="font-weight:400">city/geography</div></td><td>✅</td><td>TourScale HQ · Raleigh, NC · Wilmington, NC · North Carolina · Madison, WI · Volusia County, FL · Durham, NC · Charlotte, NC <span class="nt">(8 of ~13)</span></td></tr>
+<tr><td><b>Departments</b><div class="nt" style="font-weight:400">team/function</div></td><td>✅</td><td>Operations · Franchising · Supply · Ad Fund <span class="nt">(all four are live)</span></td></tr>
+<tr><td><b>Asset Products</b><div class="nt" style="font-weight:400">asset type</div></td><td>optional</td><td>Rarely needed — leave blank unless told otherwise.</td></tr>
+</table>
+<div class="callout"><div class="lbl">How the four move together</div>Entity, Business Unit and Location almost always travel as a set for a given unit — e.g. the Wilmington tiki boats are always <b>Trolley Pub of NC · CT Wilmington · Wilmington, NC</b>. <b>Departments</b> is the separate "function" lens: Operations (running tours), Franchising (selling/supporting franchises), Supply (manufacturing/TourCraft), or Ad Fund. HQ overhead is <b>TourScale Enterprises · TourScale Enterprises · TourScale HQ</b> + the department it supports. Practice these in §7 Part B.</div>
+<div class="callout warn"><div class="lbl">Tags before save — every time</div>Entity, Business Unit, Location, and Department must all be set. An untagged expense silently breaks our per-brand, per-market, and per-LLC reports used for tax and partner reporting.</div>
+
+<h2 id="s5"><span class="num">5.</span> Expense matching — the daily workflow</h2>
+<p><strong>Expense matching</strong> = taking a charge from a bank/credit-card feed (Ramp, Bank of America, Chase, Stripe) and tying it to the right account + tags so the books reconcile.</p>
+<ol>
+<li><b>Open the feed</b> (<em>Banking → the account</em>). New charges show as "Uncategorized."</li>
+<li><b>Read merchant + amount + memo</b> — that tells you the account. (The quiz in §7 is exactly this skill.)</li>
+<li><b>Check for a suggested match.</b> If a bill/expense already exists, confirm the green <b>Match</b>. Only <em>categorize</em> when there's no existing record.</li>
+<li><b>Pick the account</b> (§3). Match the merchant the way it was done last time.</li>
+<li><b>Set all 4 mandatory tags.</b></li>
+<li><b>Attach the receipt</b> (Ramp usually carries it over).</li>
+<li><b>Save / Confirm.</b></li>
+</ol>
+<div class="callout"><div class="lbl">Paid-through accounts</div>Each LLC/market has its own bank or card — pick the one the money actually moved through: e.g. <code>1030 Ad Fund - Ramp TRSY</code>, <code>1034 Supply - Ramp TSE</code>, <code>1043 Franchising Treasury</code>, <code>1049 TSE Operating - BOA</code>, or a market account like <code>1017 Daytona Beach</code>, <code>1023 PP Madison</code>.</div>
+
+<h2 id="s6"><span class="num">6.</span> Gotchas &amp; house rules</h2>
+<ul>
+<li><b>Header accounts are grey above — never post to them.</b> Always pick a specific child line.</li>
+<li><b>Never use "DO NOT USE" accounts</b> (e.g. <code>6094</code>). Use Banking Service Fees / Other Banking Fees instead.</li>
+<li><b>"Uncategorized" (<code>6999-9</code>) is a parking spot, not a destination.</b> Can't classify it? Leave it there and flag Kai — goal is a zero balance at month-end.</li>
+<li><b>"Itemized" is not a real account.</b> It means the expense was split into line items — categorize the individual lines.</li>
+<li><b>Loan / credit-card payments:</b> only the <em>interest</em> is an expense (8011/8012); the principal pays down a liability. Split the payment.</li>
+<li><b>Tour fuel vs trip fuel:</b> fuel for a boat on tours = <b>Vessel Fuel (5022, COGS)</b>; gas for a vehicle on a business trip = <b>Fuel (6358)</b>.</li>
+<li><b>Software vs services:</b> a tool/subscription is Software (6400s); a person doing the work is a service account (e.g. Bookkeeping Services).</li>
+<li><b>Watch the Ops / FranDev / Franchisee split</b> on advertising.</li>
+<li><b>Spelling is locked in Books</b> ("Acccounting Software", "Hotels &amp; Accomodations") — match it; don't make new accounts.</li>
+<li><b>Don't create accounts or tag options</b> without Kai — the structure is shared across every LLC and reused in tax filings.</li>
+</ul>
+
+<h2 id="s7"><span class="num">7.</span> Practice quiz</h2>
+
+<h3>Part A — pick the account</h3>
+<p class="blurb">Each card is a real-world bank-feed line (based on our actual vendors). Pick the account you'd categorize it to, then press <b>Check Part A</b>. These deliberately include the tricky calls from §6.</p>
+<div class="quizbox">
+
+  <div class="q" data-ans="Email Hosting">
+    <div class="qhead"><span class="qn">1</span>
+      <div class="qtx"><div class="qmerch">GOOGLE *WORKSPACE — Mountain View CA</div>
+        <div class="qmeta">$98.40 · paid through <b>Ramp TSE</b> · <span class="qhint">Recurring Google Workspace mailbox bill</span></div></div>
+    </div>
+    <select class="qsel"><option value="">— choose an account —</option><option value="AI">AI</option><option value="Acccounting Software">Acccounting Software</option><option value="Banking Service Fees">Banking Service Fees</option><option value="Bookkeeping Services">Bookkeeping Services</option><option value="Commercial Vessel Liability">Commercial Vessel Liability</option><option value="Credit Card Interest">Credit Card Interest</option><option value="Domain Names">Domain Names</option><option value="Email Hosting">Email Hosting</option><option value="Fuel">Fuel</option><option value="Ice">Ice</option><option value="Loan Interest">Loan Interest</option><option value="Marketing Software">Marketing Software</option><option value="Meals - Local">Meals - Local</option><option value="Meta Ads - Ops">Meta Ads - Ops</option><option value="Office Suite Software">Office Suite Software</option><option value="Operation Tech Fees">Operation Tech Fees</option><option value="Other Software Subscriptions">Other Software Subscriptions</option><option value="Other Tour Supplies">Other Tour Supplies</option><option value="Payroll Software">Payroll Software</option><option value="Slip Lease">Slip Lease</option><option value="Small Tools &amp; Equipment">Small Tools &amp; Equipment</option><option value="Staff Recruiting">Staff Recruiting</option><option value="Storage Lease">Storage Lease</option><option value="Taxis &amp; Uber">Taxis &amp; Uber</option><option value="VOIP Service">VOIP Service</option><option value="Vessel Fuel">Vessel Fuel</option><option value="Website Development">Website Development</option><option value="Website Hosting">Website Hosting</option></select>
+    <div class="qfb"></div>
+    <div class="qwhy">Google Workspace = company email hosting (6403). Not Office Suite — that's the editing apps.</div>
+  </div>
+
+  <div class="q" data-ans="Meta Ads - Ops">
+    <div class="qhead"><span class="qn">2</span>
+      <div class="qtx"><div class="qmerch">FACEBK *7QJVCC93L2 — Meta</div>
+        <div class="qmeta">$312.00 · paid through <b>Cap1 (TPNC)</b> · <span class="qhint">Boosting posts for our Raleigh trolley tours</span></div></div>
+    </div>
+    <select class="qsel"><option value="">— choose an account —</option><option value="AI">AI</option><option value="Acccounting Software">Acccounting Software</option><option value="Banking Service Fees">Banking Service Fees</option><option value="Bookkeeping Services">Bookkeeping Services</option><option value="Commercial Vessel Liability">Commercial Vessel Liability</option><option value="Credit Card Interest">Credit Card Interest</option><option value="Domain Names">Domain Names</option><option value="Email Hosting">Email Hosting</option><option value="Fuel">Fuel</option><option value="Ice">Ice</option><option value="Loan Interest">Loan Interest</option><option value="Marketing Software">Marketing Software</option><option value="Meals - Local">Meals - Local</option><option value="Meta Ads - Ops">Meta Ads - Ops</option><option value="Office Suite Software">Office Suite Software</option><option value="Operation Tech Fees">Operation Tech Fees</option><option value="Other Software Subscriptions">Other Software Subscriptions</option><option value="Other Tour Supplies">Other Tour Supplies</option><option value="Payroll Software">Payroll Software</option><option value="Slip Lease">Slip Lease</option><option value="Small Tools &amp; Equipment">Small Tools &amp; Equipment</option><option value="Staff Recruiting">Staff Recruiting</option><option value="Storage Lease">Storage Lease</option><option value="Taxis &amp; Uber">Taxis &amp; Uber</option><option value="VOIP Service">VOIP Service</option><option value="Vessel Fuel">Vessel Fuel</option><option value="Website Development">Website Development</option><option value="Website Hosting">Website Hosting</option></select>
+    <div class="qfb"></div>
+    <div class="qwhy">Meta ads for our own operating unit = Meta Ads - Ops (6022). FranDev/Franchisee splits are for recruiting / a franchisee's spend.</div>
+  </div>
+
+  <div class="q" data-ans="AI">
+    <div class="qhead"><span class="qn">3</span>
+      <div class="qtx"><div class="qmerch">ANTHROPIC — claude.ai subscription</div>
+        <div class="qmeta">$20.00 · paid through <b>Ramp TSE</b> · <span class="qhint">AI assistant subscription</span></div></div>
+    </div>
+    <select class="qsel"><option value="">— choose an account —</option><option value="AI">AI</option><option value="Acccounting Software">Acccounting Software</option><option value="Banking Service Fees">Banking Service Fees</option><option value="Bookkeeping Services">Bookkeeping Services</option><option value="Commercial Vessel Liability">Commercial Vessel Liability</option><option value="Credit Card Interest">Credit Card Interest</option><option value="Domain Names">Domain Names</option><option value="Email Hosting">Email Hosting</option><option value="Fuel">Fuel</option><option value="Ice">Ice</option><option value="Loan Interest">Loan Interest</option><option value="Marketing Software">Marketing Software</option><option value="Meals - Local">Meals - Local</option><option value="Meta Ads - Ops">Meta Ads - Ops</option><option value="Office Suite Software">Office Suite Software</option><option value="Operation Tech Fees">Operation Tech Fees</option><option value="Other Software Subscriptions">Other Software Subscriptions</option><option value="Other Tour Supplies">Other Tour Supplies</option><option value="Payroll Software">Payroll Software</option><option value="Slip Lease">Slip Lease</option><option value="Small Tools &amp; Equipment">Small Tools &amp; Equipment</option><option value="Staff Recruiting">Staff Recruiting</option><option value="Storage Lease">Storage Lease</option><option value="Taxis &amp; Uber">Taxis &amp; Uber</option><option value="VOIP Service">VOIP Service</option><option value="Vessel Fuel">Vessel Fuel</option><option value="Website Development">Website Development</option><option value="Website Hosting">Website Hosting</option></select>
+    <div class="qfb"></div>
+    <div class="qwhy">AI tooling has its own software account (6408).</div>
+  </div>
+
+  <div class="q" data-ans="Storage Lease">
+    <div class="qhead"><span class="qn">4</span>
+      <div class="qtx"><div class="qmerch">US1 BOAT &amp; RV STORAGE A</div>
+        <div class="qmeta">$539.00 · paid through <b>Charlotte BOA CHK</b> · <span class="qhint">Monthly off-season boat storage</span></div></div>
+    </div>
+    <select class="qsel"><option value="">— choose an account —</option><option value="AI">AI</option><option value="Acccounting Software">Acccounting Software</option><option value="Banking Service Fees">Banking Service Fees</option><option value="Bookkeeping Services">Bookkeeping Services</option><option value="Commercial Vessel Liability">Commercial Vessel Liability</option><option value="Credit Card Interest">Credit Card Interest</option><option value="Domain Names">Domain Names</option><option value="Email Hosting">Email Hosting</option><option value="Fuel">Fuel</option><option value="Ice">Ice</option><option value="Loan Interest">Loan Interest</option><option value="Marketing Software">Marketing Software</option><option value="Meals - Local">Meals - Local</option><option value="Meta Ads - Ops">Meta Ads - Ops</option><option value="Office Suite Software">Office Suite Software</option><option value="Operation Tech Fees">Operation Tech Fees</option><option value="Other Software Subscriptions">Other Software Subscriptions</option><option value="Other Tour Supplies">Other Tour Supplies</option><option value="Payroll Software">Payroll Software</option><option value="Slip Lease">Slip Lease</option><option value="Small Tools &amp; Equipment">Small Tools &amp; Equipment</option><option value="Staff Recruiting">Staff Recruiting</option><option value="Storage Lease">Storage Lease</option><option value="Taxis &amp; Uber">Taxis &amp; Uber</option><option value="VOIP Service">VOIP Service</option><option value="Vessel Fuel">Vessel Fuel</option><option value="Website Development">Website Development</option><option value="Website Hosting">Website Hosting</option></select>
+    <div class="qfb"></div>
+    <div class="qwhy">Storage facility rent = Storage Lease (6133). A dock would be Slip Lease.</div>
+  </div>
+
+  <div class="q" data-ans="Slip Lease">
+    <div class="qhead"><span class="qn">5</span>
+      <div class="qtx"><div class="qmerch">INLET HARBOUR MARINA</div>
+        <div class="qmeta">$600.00 · paid through <b>xxxx6337</b> · <span class="qhint">Monthly dock slip for the tiki boat</span></div></div>
+    </div>
+    <select class="qsel"><option value="">— choose an account —</option><option value="AI">AI</option><option value="Acccounting Software">Acccounting Software</option><option value="Banking Service Fees">Banking Service Fees</option><option value="Bookkeeping Services">Bookkeeping Services</option><option value="Commercial Vessel Liability">Commercial Vessel Liability</option><option value="Credit Card Interest">Credit Card Interest</option><option value="Domain Names">Domain Names</option><option value="Email Hosting">Email Hosting</option><option value="Fuel">Fuel</option><option value="Ice">Ice</option><option value="Loan Interest">Loan Interest</option><option value="Marketing Software">Marketing Software</option><option value="Meals - Local">Meals - Local</option><option value="Meta Ads - Ops">Meta Ads - Ops</option><option value="Office Suite Software">Office Suite Software</option><option value="Operation Tech Fees">Operation Tech Fees</option><option value="Other Software Subscriptions">Other Software Subscriptions</option><option value="Other Tour Supplies">Other Tour Supplies</option><option value="Payroll Software">Payroll Software</option><option value="Slip Lease">Slip Lease</option><option value="Small Tools &amp; Equipment">Small Tools &amp; Equipment</option><option value="Staff Recruiting">Staff Recruiting</option><option value="Storage Lease">Storage Lease</option><option value="Taxis &amp; Uber">Taxis &amp; Uber</option><option value="VOIP Service">VOIP Service</option><option value="Vessel Fuel">Vessel Fuel</option><option value="Website Development">Website Development</option><option value="Website Hosting">Website Hosting</option></select>
+    <div class="qfb"></div>
+    <div class="qwhy">Leasing a boat slip = Slip Lease (6134).</div>
+  </div>
+
+  <div class="q" data-ans="Loan Interest">
+    <div class="qhead"><span class="qn">6</span>
+      <div class="qtx"><div class="qmerch">SBA EIDL LOAN DES:PAYMENT</div>
+        <div class="qmeta">$1,250.00 · paid through <b>TPNC Checking</b> · <span class="qhint">Monthly SBA loan payment — interest portion</span></div></div>
+    </div>
+    <select class="qsel"><option value="">— choose an account —</option><option value="AI">AI</option><option value="Acccounting Software">Acccounting Software</option><option value="Banking Service Fees">Banking Service Fees</option><option value="Bookkeeping Services">Bookkeeping Services</option><option value="Commercial Vessel Liability">Commercial Vessel Liability</option><option value="Credit Card Interest">Credit Card Interest</option><option value="Domain Names">Domain Names</option><option value="Email Hosting">Email Hosting</option><option value="Fuel">Fuel</option><option value="Ice">Ice</option><option value="Loan Interest">Loan Interest</option><option value="Marketing Software">Marketing Software</option><option value="Meals - Local">Meals - Local</option><option value="Meta Ads - Ops">Meta Ads - Ops</option><option value="Office Suite Software">Office Suite Software</option><option value="Operation Tech Fees">Operation Tech Fees</option><option value="Other Software Subscriptions">Other Software Subscriptions</option><option value="Other Tour Supplies">Other Tour Supplies</option><option value="Payroll Software">Payroll Software</option><option value="Slip Lease">Slip Lease</option><option value="Small Tools &amp; Equipment">Small Tools &amp; Equipment</option><option value="Staff Recruiting">Staff Recruiting</option><option value="Storage Lease">Storage Lease</option><option value="Taxis &amp; Uber">Taxis &amp; Uber</option><option value="VOIP Service">VOIP Service</option><option value="Vessel Fuel">Vessel Fuel</option><option value="Website Development">Website Development</option><option value="Website Hosting">Website Hosting</option></select>
+    <div class="qfb"></div>
+    <div class="qwhy">Only the interest portion is an expense (8012); the principal pays down the loan liability. Split the payment.</div>
+  </div>
+
+  <div class="q" data-ans="Credit Card Interest">
+    <div class="qhead"><span class="qn">7</span>
+      <div class="qtx"><div class="qmerch">PURCHASE INTEREST CHARGE</div>
+        <div class="qmeta">$418.22 · paid through <b>BOA CC (KCV) 5126</b> · <span class="qhint">Finance charge on the corporate card</span></div></div>
+    </div>
+    <select class="qsel"><option value="">— choose an account —</option><option value="AI">AI</option><option value="Acccounting Software">Acccounting Software</option><option value="Banking Service Fees">Banking Service Fees</option><option value="Bookkeeping Services">Bookkeeping Services</option><option value="Commercial Vessel Liability">Commercial Vessel Liability</option><option value="Credit Card Interest">Credit Card Interest</option><option value="Domain Names">Domain Names</option><option value="Email Hosting">Email Hosting</option><option value="Fuel">Fuel</option><option value="Ice">Ice</option><option value="Loan Interest">Loan Interest</option><option value="Marketing Software">Marketing Software</option><option value="Meals - Local">Meals - Local</option><option value="Meta Ads - Ops">Meta Ads - Ops</option><option value="Office Suite Software">Office Suite Software</option><option value="Operation Tech Fees">Operation Tech Fees</option><option value="Other Software Subscriptions">Other Software Subscriptions</option><option value="Other Tour Supplies">Other Tour Supplies</option><option value="Payroll Software">Payroll Software</option><option value="Slip Lease">Slip Lease</option><option value="Small Tools &amp; Equipment">Small Tools &amp; Equipment</option><option value="Staff Recruiting">Staff Recruiting</option><option value="Storage Lease">Storage Lease</option><option value="Taxis &amp; Uber">Taxis &amp; Uber</option><option value="VOIP Service">VOIP Service</option><option value="Vessel Fuel">Vessel Fuel</option><option value="Website Development">Website Development</option><option value="Website Hosting">Website Hosting</option></select>
+    <div class="qfb"></div>
+    <div class="qwhy">Card finance charges = Credit Card Interest (8011), an Other Expense — not a banking fee.</div>
+  </div>
+
+  <div class="q" data-ans="Staff Recruiting">
+    <div class="qhead"><span class="qn">8</span>
+      <div class="qtx"><div class="qmerch">INDEED — job post</div>
+        <div class="qmeta">$249.00 · paid through <b>Ramp TSE</b> · <span class="qhint">Posting a captain job opening</span></div></div>
+    </div>
+    <select class="qsel"><option value="">— choose an account —</option><option value="AI">AI</option><option value="Acccounting Software">Acccounting Software</option><option value="Banking Service Fees">Banking Service Fees</option><option value="Bookkeeping Services">Bookkeeping Services</option><option value="Commercial Vessel Liability">Commercial Vessel Liability</option><option value="Credit Card Interest">Credit Card Interest</option><option value="Domain Names">Domain Names</option><option value="Email Hosting">Email Hosting</option><option value="Fuel">Fuel</option><option value="Ice">Ice</option><option value="Loan Interest">Loan Interest</option><option value="Marketing Software">Marketing Software</option><option value="Meals - Local">Meals - Local</option><option value="Meta Ads - Ops">Meta Ads - Ops</option><option value="Office Suite Software">Office Suite Software</option><option value="Operation Tech Fees">Operation Tech Fees</option><option value="Other Software Subscriptions">Other Software Subscriptions</option><option value="Other Tour Supplies">Other Tour Supplies</option><option value="Payroll Software">Payroll Software</option><option value="Slip Lease">Slip Lease</option><option value="Small Tools &amp; Equipment">Small Tools &amp; Equipment</option><option value="Staff Recruiting">Staff Recruiting</option><option value="Storage Lease">Storage Lease</option><option value="Taxis &amp; Uber">Taxis &amp; Uber</option><option value="VOIP Service">VOIP Service</option><option value="Vessel Fuel">Vessel Fuel</option><option value="Website Development">Website Development</option><option value="Website Hosting">Website Hosting</option></select>
+    <div class="qfb"></div>
+    <div class="qwhy">Indeed / TORRE hiring spend = Staff Recruiting (6190).</div>
+  </div>
+
+  <div class="q" data-ans="VOIP Service">
+    <div class="qhead"><span class="qn">9</span>
+      <div class="qtx"><div class="qmerch">RINGCENTRAL INC.</div>
+        <div class="qmeta">$197.50 · paid through <b>Chase (KCV) 2218</b> · <span class="qhint">Monthly phone system</span></div></div>
+    </div>
+    <select class="qsel"><option value="">— choose an account —</option><option value="AI">AI</option><option value="Acccounting Software">Acccounting Software</option><option value="Banking Service Fees">Banking Service Fees</option><option value="Bookkeeping Services">Bookkeeping Services</option><option value="Commercial Vessel Liability">Commercial Vessel Liability</option><option value="Credit Card Interest">Credit Card Interest</option><option value="Domain Names">Domain Names</option><option value="Email Hosting">Email Hosting</option><option value="Fuel">Fuel</option><option value="Ice">Ice</option><option value="Loan Interest">Loan Interest</option><option value="Marketing Software">Marketing Software</option><option value="Meals - Local">Meals - Local</option><option value="Meta Ads - Ops">Meta Ads - Ops</option><option value="Office Suite Software">Office Suite Software</option><option value="Operation Tech Fees">Operation Tech Fees</option><option value="Other Software Subscriptions">Other Software Subscriptions</option><option value="Other Tour Supplies">Other Tour Supplies</option><option value="Payroll Software">Payroll Software</option><option value="Slip Lease">Slip Lease</option><option value="Small Tools &amp; Equipment">Small Tools &amp; Equipment</option><option value="Staff Recruiting">Staff Recruiting</option><option value="Storage Lease">Storage Lease</option><option value="Taxis &amp; Uber">Taxis &amp; Uber</option><option value="VOIP Service">VOIP Service</option><option value="Vessel Fuel">Vessel Fuel</option><option value="Website Development">Website Development</option><option value="Website Hosting">Website Hosting</option></select>
+    <div class="qfb"></div>
+    <div class="qwhy">Phone/VOIP platforms = VOIP Service (6093).</div>
+  </div>
+
+  <div class="q" data-ans="Vessel Fuel">
+    <div class="qhead"><span class="qn">10</span>
+      <div class="qtx"><div class="qmerch">VENMO to dock attendant — fuel</div>
+        <div class="qmeta">$210.00 · paid through <b>Raleigh BOA CHK</b> · <span class="qhint">Filling the tiki boat's tank before tours</span></div></div>
+    </div>
+    <select class="qsel"><option value="">— choose an account —</option><option value="AI">AI</option><option value="Acccounting Software">Acccounting Software</option><option value="Banking Service Fees">Banking Service Fees</option><option value="Bookkeeping Services">Bookkeeping Services</option><option value="Commercial Vessel Liability">Commercial Vessel Liability</option><option value="Credit Card Interest">Credit Card Interest</option><option value="Domain Names">Domain Names</option><option value="Email Hosting">Email Hosting</option><option value="Fuel">Fuel</option><option value="Ice">Ice</option><option value="Loan Interest">Loan Interest</option><option value="Marketing Software">Marketing Software</option><option value="Meals - Local">Meals - Local</option><option value="Meta Ads - Ops">Meta Ads - Ops</option><option value="Office Suite Software">Office Suite Software</option><option value="Operation Tech Fees">Operation Tech Fees</option><option value="Other Software Subscriptions">Other Software Subscriptions</option><option value="Other Tour Supplies">Other Tour Supplies</option><option value="Payroll Software">Payroll Software</option><option value="Slip Lease">Slip Lease</option><option value="Small Tools &amp; Equipment">Small Tools &amp; Equipment</option><option value="Staff Recruiting">Staff Recruiting</option><option value="Storage Lease">Storage Lease</option><option value="Taxis &amp; Uber">Taxis &amp; Uber</option><option value="VOIP Service">VOIP Service</option><option value="Vessel Fuel">Vessel Fuel</option><option value="Website Development">Website Development</option><option value="Website Hosting">Website Hosting</option></select>
+    <div class="qfb"></div>
+    <div class="qwhy">Fuel burned running tours is a direct cost = Vessel Fuel (5022, COGS) — not the 6358 Fuel account (that's road/vehicle fuel on trips).</div>
+  </div>
+
+  <div class="q" data-ans="Ice">
+    <div class="qhead"><span class="qn">11</span>
+      <div class="qtx"><div class="qmerch">SQ *bagged ice</div>
+        <div class="qmeta">$38.50 · paid through <b>xxxx9181</b> · <span class="qhint">Ice for coolers on today's tours</span></div></div>
+    </div>
+    <select class="qsel"><option value="">— choose an account —</option><option value="AI">AI</option><option value="Acccounting Software">Acccounting Software</option><option value="Banking Service Fees">Banking Service Fees</option><option value="Bookkeeping Services">Bookkeeping Services</option><option value="Commercial Vessel Liability">Commercial Vessel Liability</option><option value="Credit Card Interest">Credit Card Interest</option><option value="Domain Names">Domain Names</option><option value="Email Hosting">Email Hosting</option><option value="Fuel">Fuel</option><option value="Ice">Ice</option><option value="Loan Interest">Loan Interest</option><option value="Marketing Software">Marketing Software</option><option value="Meals - Local">Meals - Local</option><option value="Meta Ads - Ops">Meta Ads - Ops</option><option value="Office Suite Software">Office Suite Software</option><option value="Operation Tech Fees">Operation Tech Fees</option><option value="Other Software Subscriptions">Other Software Subscriptions</option><option value="Other Tour Supplies">Other Tour Supplies</option><option value="Payroll Software">Payroll Software</option><option value="Slip Lease">Slip Lease</option><option value="Small Tools &amp; Equipment">Small Tools &amp; Equipment</option><option value="Staff Recruiting">Staff Recruiting</option><option value="Storage Lease">Storage Lease</option><option value="Taxis &amp; Uber">Taxis &amp; Uber</option><option value="VOIP Service">VOIP Service</option><option value="Vessel Fuel">Vessel Fuel</option><option value="Website Development">Website Development</option><option value="Website Hosting">Website Hosting</option></select>
+    <div class="qfb"></div>
+    <div class="qwhy">Consumed delivering the tour = Ice (5021, COGS).</div>
+  </div>
+
+  <div class="q" data-ans="Acccounting Software">
+    <div class="qhead"><span class="qn">12</span>
+      <div class="qtx"><div class="qmerch">INTUIT *QBooks Online</div>
+        <div class="qmeta">$90.00 · paid through <b>Ramp TSE</b> · <span class="qhint">Monthly accounting software</span></div></div>
+    </div>
+    <select class="qsel"><option value="">— choose an account —</option><option value="AI">AI</option><option value="Acccounting Software">Acccounting Software</option><option value="Banking Service Fees">Banking Service Fees</option><option value="Bookkeeping Services">Bookkeeping Services</option><option value="Commercial Vessel Liability">Commercial Vessel Liability</option><option value="Credit Card Interest">Credit Card Interest</option><option value="Domain Names">Domain Names</option><option value="Email Hosting">Email Hosting</option><option value="Fuel">Fuel</option><option value="Ice">Ice</option><option value="Loan Interest">Loan Interest</option><option value="Marketing Software">Marketing Software</option><option value="Meals - Local">Meals - Local</option><option value="Meta Ads - Ops">Meta Ads - Ops</option><option value="Office Suite Software">Office Suite Software</option><option value="Operation Tech Fees">Operation Tech Fees</option><option value="Other Software Subscriptions">Other Software Subscriptions</option><option value="Other Tour Supplies">Other Tour Supplies</option><option value="Payroll Software">Payroll Software</option><option value="Slip Lease">Slip Lease</option><option value="Small Tools &amp; Equipment">Small Tools &amp; Equipment</option><option value="Staff Recruiting">Staff Recruiting</option><option value="Storage Lease">Storage Lease</option><option value="Taxis &amp; Uber">Taxis &amp; Uber</option><option value="VOIP Service">VOIP Service</option><option value="Vessel Fuel">Vessel Fuel</option><option value="Website Development">Website Development</option><option value="Website Hosting">Website Hosting</option></select>
+    <div class="qfb"></div>
+    <div class="qwhy">Accounting software (note the Books misspelling 'Acccounting', 6211). Bookkeeping Services is for a human bookkeeper.</div>
+  </div>
+
+  <div class="q" data-ans="Bookkeeping Services">
+    <div class="qhead"><span class="qn">13</span>
+      <div class="qtx"><div class="qmerch">PAYPAL *ABIETOMS — Abegail F.</div>
+        <div class="qmeta">$420.00 · paid through <b>KCV Operating</b> · <span class="qhint">Monthly contract bookkeeper</span></div></div>
+    </div>
+    <select class="qsel"><option value="">— choose an account —</option><option value="AI">AI</option><option value="Acccounting Software">Acccounting Software</option><option value="Banking Service Fees">Banking Service Fees</option><option value="Bookkeeping Services">Bookkeeping Services</option><option value="Commercial Vessel Liability">Commercial Vessel Liability</option><option value="Credit Card Interest">Credit Card Interest</option><option value="Domain Names">Domain Names</option><option value="Email Hosting">Email Hosting</option><option value="Fuel">Fuel</option><option value="Ice">Ice</option><option value="Loan Interest">Loan Interest</option><option value="Marketing Software">Marketing Software</option><option value="Meals - Local">Meals - Local</option><option value="Meta Ads - Ops">Meta Ads - Ops</option><option value="Office Suite Software">Office Suite Software</option><option value="Operation Tech Fees">Operation Tech Fees</option><option value="Other Software Subscriptions">Other Software Subscriptions</option><option value="Other Tour Supplies">Other Tour Supplies</option><option value="Payroll Software">Payroll Software</option><option value="Slip Lease">Slip Lease</option><option value="Small Tools &amp; Equipment">Small Tools &amp; Equipment</option><option value="Staff Recruiting">Staff Recruiting</option><option value="Storage Lease">Storage Lease</option><option value="Taxis &amp; Uber">Taxis &amp; Uber</option><option value="VOIP Service">VOIP Service</option><option value="Vessel Fuel">Vessel Fuel</option><option value="Website Development">Website Development</option><option value="Website Hosting">Website Hosting</option></select>
+    <div class="qfb"></div>
+    <div class="qwhy">A person doing the books = Bookkeeping Services (6214), not the software account.</div>
+  </div>
+
+  <div class="q" data-ans="Website Development">
+    <div class="qhead"><span class="qn">14</span>
+      <div class="qtx"><div class="qmerch">AAMP AGENCY — Las Vegas NV</div>
+        <div class="qmeta">$1,500.00 · paid through <b>Ramp TSE</b> · <span class="qhint">Agency building our new brand site</span></div></div>
+    </div>
+    <select class="qsel"><option value="">— choose an account —</option><option value="AI">AI</option><option value="Acccounting Software">Acccounting Software</option><option value="Banking Service Fees">Banking Service Fees</option><option value="Bookkeeping Services">Bookkeeping Services</option><option value="Commercial Vessel Liability">Commercial Vessel Liability</option><option value="Credit Card Interest">Credit Card Interest</option><option value="Domain Names">Domain Names</option><option value="Email Hosting">Email Hosting</option><option value="Fuel">Fuel</option><option value="Ice">Ice</option><option value="Loan Interest">Loan Interest</option><option value="Marketing Software">Marketing Software</option><option value="Meals - Local">Meals - Local</option><option value="Meta Ads - Ops">Meta Ads - Ops</option><option value="Office Suite Software">Office Suite Software</option><option value="Operation Tech Fees">Operation Tech Fees</option><option value="Other Software Subscriptions">Other Software Subscriptions</option><option value="Other Tour Supplies">Other Tour Supplies</option><option value="Payroll Software">Payroll Software</option><option value="Slip Lease">Slip Lease</option><option value="Small Tools &amp; Equipment">Small Tools &amp; Equipment</option><option value="Staff Recruiting">Staff Recruiting</option><option value="Storage Lease">Storage Lease</option><option value="Taxis &amp; Uber">Taxis &amp; Uber</option><option value="VOIP Service">VOIP Service</option><option value="Vessel Fuel">Vessel Fuel</option><option value="Website Development">Website Development</option><option value="Website Hosting">Website Hosting</option></select>
+    <div class="qfb"></div>
+    <div class="qwhy">Building/updating our websites = Website Development (6502). Hosting and domains are separate.</div>
+  </div>
+
+  <div class="q" data-ans="Domain Names">
+    <div class="qhead"><span class="qn">15</span>
+      <div class="qtx"><div class="qmerch">PORKBUN — domain renewal</div>
+        <div class="qmeta">$11.06 · paid through <b>Ramp TSE</b> · <span class="qhint">Renewing a website domain</span></div></div>
+    </div>
+    <select class="qsel"><option value="">— choose an account —</option><option value="AI">AI</option><option value="Acccounting Software">Acccounting Software</option><option value="Banking Service Fees">Banking Service Fees</option><option value="Bookkeeping Services">Bookkeeping Services</option><option value="Commercial Vessel Liability">Commercial Vessel Liability</option><option value="Credit Card Interest">Credit Card Interest</option><option value="Domain Names">Domain Names</option><option value="Email Hosting">Email Hosting</option><option value="Fuel">Fuel</option><option value="Ice">Ice</option><option value="Loan Interest">Loan Interest</option><option value="Marketing Software">Marketing Software</option><option value="Meals - Local">Meals - Local</option><option value="Meta Ads - Ops">Meta Ads - Ops</option><option value="Office Suite Software">Office Suite Software</option><option value="Operation Tech Fees">Operation Tech Fees</option><option value="Other Software Subscriptions">Other Software Subscriptions</option><option value="Other Tour Supplies">Other Tour Supplies</option><option value="Payroll Software">Payroll Software</option><option value="Slip Lease">Slip Lease</option><option value="Small Tools &amp; Equipment">Small Tools &amp; Equipment</option><option value="Staff Recruiting">Staff Recruiting</option><option value="Storage Lease">Storage Lease</option><option value="Taxis &amp; Uber">Taxis &amp; Uber</option><option value="VOIP Service">VOIP Service</option><option value="Vessel Fuel">Vessel Fuel</option><option value="Website Development">Website Development</option><option value="Website Hosting">Website Hosting</option></select>
+    <div class="qfb"></div>
+    <div class="qwhy">Domain registration/renewal = Domain Names (6501).</div>
+  </div>
+
+  <div class="q" data-ans="Commercial Vessel Liability">
+    <div class="qhead"><span class="qn">16</span>
+      <div class="qtx"><div class="qmerch">GRANITE INSURANCE — Trolley Pub Wilmington</div>
+        <div class="qmeta">$795.00 · paid through <b>TP Madison BOA</b> · <span class="qhint">Liability policy premium on a vessel</span></div></div>
+    </div>
+    <select class="qsel"><option value="">— choose an account —</option><option value="AI">AI</option><option value="Acccounting Software">Acccounting Software</option><option value="Banking Service Fees">Banking Service Fees</option><option value="Bookkeeping Services">Bookkeeping Services</option><option value="Commercial Vessel Liability">Commercial Vessel Liability</option><option value="Credit Card Interest">Credit Card Interest</option><option value="Domain Names">Domain Names</option><option value="Email Hosting">Email Hosting</option><option value="Fuel">Fuel</option><option value="Ice">Ice</option><option value="Loan Interest">Loan Interest</option><option value="Marketing Software">Marketing Software</option><option value="Meals - Local">Meals - Local</option><option value="Meta Ads - Ops">Meta Ads - Ops</option><option value="Office Suite Software">Office Suite Software</option><option value="Operation Tech Fees">Operation Tech Fees</option><option value="Other Software Subscriptions">Other Software Subscriptions</option><option value="Other Tour Supplies">Other Tour Supplies</option><option value="Payroll Software">Payroll Software</option><option value="Slip Lease">Slip Lease</option><option value="Small Tools &amp; Equipment">Small Tools &amp; Equipment</option><option value="Staff Recruiting">Staff Recruiting</option><option value="Storage Lease">Storage Lease</option><option value="Taxis &amp; Uber">Taxis &amp; Uber</option><option value="VOIP Service">VOIP Service</option><option value="Vessel Fuel">Vessel Fuel</option><option value="Website Development">Website Development</option><option value="Website Hosting">Website Hosting</option></select>
+    <div class="qfb"></div>
+    <div class="qwhy">Boat liability insurance = Commercial Vessel Liability (6243). Vehicles would be 6242.</div>
+  </div>
+
+  <div class="q" data-ans="Payroll Software">
+    <div class="qhead"><span class="qn">17</span>
+      <div class="qtx"><div class="qmerch">PEOPLE CENTER DES:BILL (Rippling)</div>
+        <div class="qmeta">$526.00 · paid through <b>TSE Operating</b> · <span class="qhint">Monthly payroll platform fee</span></div></div>
+    </div>
+    <select class="qsel"><option value="">— choose an account —</option><option value="AI">AI</option><option value="Acccounting Software">Acccounting Software</option><option value="Banking Service Fees">Banking Service Fees</option><option value="Bookkeeping Services">Bookkeeping Services</option><option value="Commercial Vessel Liability">Commercial Vessel Liability</option><option value="Credit Card Interest">Credit Card Interest</option><option value="Domain Names">Domain Names</option><option value="Email Hosting">Email Hosting</option><option value="Fuel">Fuel</option><option value="Ice">Ice</option><option value="Loan Interest">Loan Interest</option><option value="Marketing Software">Marketing Software</option><option value="Meals - Local">Meals - Local</option><option value="Meta Ads - Ops">Meta Ads - Ops</option><option value="Office Suite Software">Office Suite Software</option><option value="Operation Tech Fees">Operation Tech Fees</option><option value="Other Software Subscriptions">Other Software Subscriptions</option><option value="Other Tour Supplies">Other Tour Supplies</option><option value="Payroll Software">Payroll Software</option><option value="Slip Lease">Slip Lease</option><option value="Small Tools &amp; Equipment">Small Tools &amp; Equipment</option><option value="Staff Recruiting">Staff Recruiting</option><option value="Storage Lease">Storage Lease</option><option value="Taxis &amp; Uber">Taxis &amp; Uber</option><option value="VOIP Service">VOIP Service</option><option value="Vessel Fuel">Vessel Fuel</option><option value="Website Development">Website Development</option><option value="Website Hosting">Website Hosting</option></select>
+    <div class="qfb"></div>
+    <div class="qwhy">The payroll platform fee = Payroll Software (6194). The wages themselves post elsewhere.</div>
+  </div>
+
+  <div class="q" data-ans="Operation Tech Fees">
+    <div class="qhead"><span class="qn">18</span>
+      <div class="qtx"><div class="qmerch">TOURSCALE DES:ACH INDN:CAPITOL PEDICYCLE</div>
+        <div class="qmeta">$150.00 · paid through <b>Wilmington BOA</b> · <span class="qhint">A corporate-owned unit paying its monthly tech fee up to the franchisor</span></div></div>
+    </div>
+    <select class="qsel"><option value="">— choose an account —</option><option value="AI">AI</option><option value="Acccounting Software">Acccounting Software</option><option value="Banking Service Fees">Banking Service Fees</option><option value="Bookkeeping Services">Bookkeeping Services</option><option value="Commercial Vessel Liability">Commercial Vessel Liability</option><option value="Credit Card Interest">Credit Card Interest</option><option value="Domain Names">Domain Names</option><option value="Email Hosting">Email Hosting</option><option value="Fuel">Fuel</option><option value="Ice">Ice</option><option value="Loan Interest">Loan Interest</option><option value="Marketing Software">Marketing Software</option><option value="Meals - Local">Meals - Local</option><option value="Meta Ads - Ops">Meta Ads - Ops</option><option value="Office Suite Software">Office Suite Software</option><option value="Operation Tech Fees">Operation Tech Fees</option><option value="Other Software Subscriptions">Other Software Subscriptions</option><option value="Other Tour Supplies">Other Tour Supplies</option><option value="Payroll Software">Payroll Software</option><option value="Slip Lease">Slip Lease</option><option value="Small Tools &amp; Equipment">Small Tools &amp; Equipment</option><option value="Staff Recruiting">Staff Recruiting</option><option value="Storage Lease">Storage Lease</option><option value="Taxis &amp; Uber">Taxis &amp; Uber</option><option value="VOIP Service">VOIP Service</option><option value="Vessel Fuel">Vessel Fuel</option><option value="Website Development">Website Development</option><option value="Website Hosting">Website Hosting</option></select>
+    <div class="qfb"></div>
+    <div class="qwhy">What our own unit pays UP to the franchisor = Operation Tech Fees (6810). (On the franchisor's books the same dollar is 4063 revenue.)</div>
+  </div>
+
+  <div class="q" data-ans="Small Tools &amp; Equipment">
+    <div class="qhead"><span class="qn">19</span>
+      <div class="qtx"><div class="qmerch">AMAZON — Adirondack chairs (x6)</div>
+        <div class="qmeta">$642.00 · paid through <b>AMEX Amazon (TPB)</b> · <span class="qhint">Furniture/gear for the launch dock</span></div></div>
+    </div>
+    <select class="qsel"><option value="">— choose an account —</option><option value="AI">AI</option><option value="Acccounting Software">Acccounting Software</option><option value="Banking Service Fees">Banking Service Fees</option><option value="Bookkeeping Services">Bookkeeping Services</option><option value="Commercial Vessel Liability">Commercial Vessel Liability</option><option value="Credit Card Interest">Credit Card Interest</option><option value="Domain Names">Domain Names</option><option value="Email Hosting">Email Hosting</option><option value="Fuel">Fuel</option><option value="Ice">Ice</option><option value="Loan Interest">Loan Interest</option><option value="Marketing Software">Marketing Software</option><option value="Meals - Local">Meals - Local</option><option value="Meta Ads - Ops">Meta Ads - Ops</option><option value="Office Suite Software">Office Suite Software</option><option value="Operation Tech Fees">Operation Tech Fees</option><option value="Other Software Subscriptions">Other Software Subscriptions</option><option value="Other Tour Supplies">Other Tour Supplies</option><option value="Payroll Software">Payroll Software</option><option value="Slip Lease">Slip Lease</option><option value="Small Tools &amp; Equipment">Small Tools &amp; Equipment</option><option value="Staff Recruiting">Staff Recruiting</option><option value="Storage Lease">Storage Lease</option><option value="Taxis &amp; Uber">Taxis &amp; Uber</option><option value="VOIP Service">VOIP Service</option><option value="Vessel Fuel">Vessel Fuel</option><option value="Website Development">Website Development</option><option value="Website Hosting">Website Hosting</option></select>
+    <div class="qfb"></div>
+    <div class="qwhy">Low-cost tools &amp; gear = Small Tools &amp; Equipment (6335).</div>
+  </div>
+
+  <div class="q" data-ans="Taxis &amp; Uber">
+    <div class="qhead"><span class="qn">20</span>
+      <div class="qtx"><div class="qmerch">UBER *BUSINESS — Cal Alte</div>
+        <div class="qmeta">$28.40 · paid through <b>Ramp TSE</b> · <span class="qhint">Ride from the airport on a work trip</span></div></div>
+    </div>
+    <select class="qsel"><option value="">— choose an account —</option><option value="AI">AI</option><option value="Acccounting Software">Acccounting Software</option><option value="Banking Service Fees">Banking Service Fees</option><option value="Bookkeeping Services">Bookkeeping Services</option><option value="Commercial Vessel Liability">Commercial Vessel Liability</option><option value="Credit Card Interest">Credit Card Interest</option><option value="Domain Names">Domain Names</option><option value="Email Hosting">Email Hosting</option><option value="Fuel">Fuel</option><option value="Ice">Ice</option><option value="Loan Interest">Loan Interest</option><option value="Marketing Software">Marketing Software</option><option value="Meals - Local">Meals - Local</option><option value="Meta Ads - Ops">Meta Ads - Ops</option><option value="Office Suite Software">Office Suite Software</option><option value="Operation Tech Fees">Operation Tech Fees</option><option value="Other Software Subscriptions">Other Software Subscriptions</option><option value="Other Tour Supplies">Other Tour Supplies</option><option value="Payroll Software">Payroll Software</option><option value="Slip Lease">Slip Lease</option><option value="Small Tools &amp; Equipment">Small Tools &amp; Equipment</option><option value="Staff Recruiting">Staff Recruiting</option><option value="Storage Lease">Storage Lease</option><option value="Taxis &amp; Uber">Taxis &amp; Uber</option><option value="VOIP Service">VOIP Service</option><option value="Vessel Fuel">Vessel Fuel</option><option value="Website Development">Website Development</option><option value="Website Hosting">Website Hosting</option></select>
+    <div class="qfb"></div>
+    <div class="qwhy">Ride-share on business travel = Taxis &amp; Uber (6365).</div>
+  </div>
+<div class="quizbtns">
+<button class="btn primary" onclick="checkQuiz()">Check Part A</button>
+<button class="btn ghost" onclick="resetQuiz()">Reset</button>
+<span class="score" id="score"></span>
+</div>
+</div>
+
+<h3>Part B — tag it</h3>
+<p class="blurb">Now the other half of matching: the four reporting tags. For each transaction pick <b>Entity · Business Unit · Location · Department</b>. The dropdowns here contain <b>only the live 2026 options</b> (the real Books dropdowns are cluttered with retired ones — see §4). Each is taken from a real, common tag combination.</p>
+<div class="quizbox">
+
+  <div class="tq">
+    <div class="qhead"><span class="qn">A</span>
+      <div class="qtx"><div class="qmerch">RIPPLING PAYMENT — contractor payroll run</div><div class="qmeta">HQ back-office cost · 372 like this in 2026</div></div>
+    </div>
+    <div class="tqgrid"><label>Entity<select class="tqsel" data-ans="TourScale Enterprises, LLC"><option value="">—</option><option value="TourScale Enterprises, LLC">TourScale Enterprises, LLC</option><option value="Trolley Pub of North Carolina, LLC">Trolley Pub of North Carolina, LLC</option><option value="TourScale Franchising, LLC">TourScale Franchising, LLC</option><option value="Kaapro &amp; Cole Ventures, LLC">Kaapro &amp; Cole Ventures, LLC</option><option value="Capitol Pedicycle, LLC">Capitol Pedicycle, LLC</option><option value="TourCraft, LLC">TourCraft, LLC</option></select></label><label>Business Unit<select class="tqsel" data-ans="TourScale Enterprises"><option value="">—</option><option value="TourScale Enterprises">TourScale Enterprises</option><option value="TourScale Franchising">TourScale Franchising</option><option value="TP Raleigh">TP Raleigh</option><option value="TPNC">TPNC</option><option value="CT Wilmington">CT Wilmington</option><option value="TourCraft">TourCraft</option><option value="TP Madison">TP Madison</option><option value="TP Wilmington">TP Wilmington</option><option value="PP Madison">PP Madison</option><option value="PP Daytona Beach">PP Daytona Beach</option><option value="TKP Ponce Inlet">TKP Ponce Inlet</option><option value="CT Daytona Beach">CT Daytona Beach</option><option value="TP Durham">TP Durham</option><option value="TP Charlotte">TP Charlotte</option><option value="KCH Sales">KCH Sales</option></select></label><label>Location<select class="tqsel" data-ans="TourScale HQ"><option value="">—</option><option value="TourScale HQ">TourScale HQ</option><option value="Raleigh, NC">Raleigh, NC</option><option value="Wilmington, NC">Wilmington, NC</option><option value="North Carolina">North Carolina</option><option value="Madison, WI">Madison, WI</option><option value="Volusia County, FL">Volusia County, FL</option><option value="Durham, NC">Durham, NC</option><option value="Charlotte, NC">Charlotte, NC</option></select></label><label>Departments<select class="tqsel" data-ans="Franchising"><option value="">—</option><option value="Operations">Operations</option><option value="Franchising">Franchising</option><option value="Supply">Supply</option><option value="Ad Fund">Ad Fund</option></select></label></div>
+    <div class="qfb"></div>
+    <div class="qwhy">Our HQ company, HQ business unit and location, Franchising department — the single most common tag set in the books.</div>
+  </div>
+
+  <div class="tq">
+    <div class="qhead"><span class="qn">B</span>
+      <div class="qtx"><div class="qmerch">AMAZON — banners &amp; supplies for a franchise sales trade show</div><div class="qmeta">Franchise-development spend · 186 like this</div></div>
+    </div>
+    <div class="tqgrid"><label>Entity<select class="tqsel" data-ans="TourScale Franchising, LLC"><option value="">—</option><option value="TourScale Enterprises, LLC">TourScale Enterprises, LLC</option><option value="Trolley Pub of North Carolina, LLC">Trolley Pub of North Carolina, LLC</option><option value="TourScale Franchising, LLC">TourScale Franchising, LLC</option><option value="Kaapro &amp; Cole Ventures, LLC">Kaapro &amp; Cole Ventures, LLC</option><option value="Capitol Pedicycle, LLC">Capitol Pedicycle, LLC</option><option value="TourCraft, LLC">TourCraft, LLC</option></select></label><label>Business Unit<select class="tqsel" data-ans="TourScale Franchising"><option value="">—</option><option value="TourScale Enterprises">TourScale Enterprises</option><option value="TourScale Franchising">TourScale Franchising</option><option value="TP Raleigh">TP Raleigh</option><option value="TPNC">TPNC</option><option value="CT Wilmington">CT Wilmington</option><option value="TourCraft">TourCraft</option><option value="TP Madison">TP Madison</option><option value="TP Wilmington">TP Wilmington</option><option value="PP Madison">PP Madison</option><option value="PP Daytona Beach">PP Daytona Beach</option><option value="TKP Ponce Inlet">TKP Ponce Inlet</option><option value="CT Daytona Beach">CT Daytona Beach</option><option value="TP Durham">TP Durham</option><option value="TP Charlotte">TP Charlotte</option><option value="KCH Sales">KCH Sales</option></select></label><label>Location<select class="tqsel" data-ans="TourScale HQ"><option value="">—</option><option value="TourScale HQ">TourScale HQ</option><option value="Raleigh, NC">Raleigh, NC</option><option value="Wilmington, NC">Wilmington, NC</option><option value="North Carolina">North Carolina</option><option value="Madison, WI">Madison, WI</option><option value="Volusia County, FL">Volusia County, FL</option><option value="Durham, NC">Durham, NC</option><option value="Charlotte, NC">Charlotte, NC</option></select></label><label>Departments<select class="tqsel" data-ans="Franchising"><option value="">—</option><option value="Operations">Operations</option><option value="Franchising">Franchising</option><option value="Supply">Supply</option><option value="Ad Fund">Ad Fund</option></select></label></div>
+    <div class="qfb"></div>
+    <div class="qwhy">Recruiting/selling franchises rolls up to the Franchising entity + business unit at HQ.</div>
+  </div>
+
+  <div class="tq">
+    <div class="qhead"><span class="qn">C</span>
+      <div class="qtx"><div class="qmerch">US1 BOAT &amp; RV STORAGE — off-season boat storage</div><div class="qmeta">Trolley Pub of NC corporate ops · 58 like this</div></div>
+    </div>
+    <div class="tqgrid"><label>Entity<select class="tqsel" data-ans="Trolley Pub of North Carolina, LLC"><option value="">—</option><option value="TourScale Enterprises, LLC">TourScale Enterprises, LLC</option><option value="Trolley Pub of North Carolina, LLC">Trolley Pub of North Carolina, LLC</option><option value="TourScale Franchising, LLC">TourScale Franchising, LLC</option><option value="Kaapro &amp; Cole Ventures, LLC">Kaapro &amp; Cole Ventures, LLC</option><option value="Capitol Pedicycle, LLC">Capitol Pedicycle, LLC</option><option value="TourCraft, LLC">TourCraft, LLC</option></select></label><label>Business Unit<select class="tqsel" data-ans="TPNC"><option value="">—</option><option value="TourScale Enterprises">TourScale Enterprises</option><option value="TourScale Franchising">TourScale Franchising</option><option value="TP Raleigh">TP Raleigh</option><option value="TPNC">TPNC</option><option value="CT Wilmington">CT Wilmington</option><option value="TourCraft">TourCraft</option><option value="TP Madison">TP Madison</option><option value="TP Wilmington">TP Wilmington</option><option value="PP Madison">PP Madison</option><option value="PP Daytona Beach">PP Daytona Beach</option><option value="TKP Ponce Inlet">TKP Ponce Inlet</option><option value="CT Daytona Beach">CT Daytona Beach</option><option value="TP Durham">TP Durham</option><option value="TP Charlotte">TP Charlotte</option><option value="KCH Sales">KCH Sales</option></select></label><label>Location<select class="tqsel" data-ans="North Carolina"><option value="">—</option><option value="TourScale HQ">TourScale HQ</option><option value="Raleigh, NC">Raleigh, NC</option><option value="Wilmington, NC">Wilmington, NC</option><option value="North Carolina">North Carolina</option><option value="Madison, WI">Madison, WI</option><option value="Volusia County, FL">Volusia County, FL</option><option value="Durham, NC">Durham, NC</option><option value="Charlotte, NC">Charlotte, NC</option></select></label><label>Departments<select class="tqsel" data-ans="Operations"><option value="">—</option><option value="Operations">Operations</option><option value="Franchising">Franchising</option><option value="Supply">Supply</option><option value="Ad Fund">Ad Fund</option></select></label></div>
+    <div class="qfb"></div>
+    <div class="qwhy">TPNC is the NC corporate-operations entity/BU; statewide cost uses the 'North Carolina' location, Operations dept.</div>
+  </div>
+
+  <div class="tq">
+    <div class="qhead"><span class="qn">D</span>
+      <div class="qtx"><div class="qmerch">AMAZON — cooler &amp; supplies for the Wilmington tiki boats</div><div class="qmeta">Cruisin Tikis Wilmington · 55 like this</div></div>
+    </div>
+    <div class="tqgrid"><label>Entity<select class="tqsel" data-ans="Trolley Pub of North Carolina, LLC"><option value="">—</option><option value="TourScale Enterprises, LLC">TourScale Enterprises, LLC</option><option value="Trolley Pub of North Carolina, LLC">Trolley Pub of North Carolina, LLC</option><option value="TourScale Franchising, LLC">TourScale Franchising, LLC</option><option value="Kaapro &amp; Cole Ventures, LLC">Kaapro &amp; Cole Ventures, LLC</option><option value="Capitol Pedicycle, LLC">Capitol Pedicycle, LLC</option><option value="TourCraft, LLC">TourCraft, LLC</option></select></label><label>Business Unit<select class="tqsel" data-ans="CT Wilmington"><option value="">—</option><option value="TourScale Enterprises">TourScale Enterprises</option><option value="TourScale Franchising">TourScale Franchising</option><option value="TP Raleigh">TP Raleigh</option><option value="TPNC">TPNC</option><option value="CT Wilmington">CT Wilmington</option><option value="TourCraft">TourCraft</option><option value="TP Madison">TP Madison</option><option value="TP Wilmington">TP Wilmington</option><option value="PP Madison">PP Madison</option><option value="PP Daytona Beach">PP Daytona Beach</option><option value="TKP Ponce Inlet">TKP Ponce Inlet</option><option value="CT Daytona Beach">CT Daytona Beach</option><option value="TP Durham">TP Durham</option><option value="TP Charlotte">TP Charlotte</option><option value="KCH Sales">KCH Sales</option></select></label><label>Location<select class="tqsel" data-ans="Wilmington, NC"><option value="">—</option><option value="TourScale HQ">TourScale HQ</option><option value="Raleigh, NC">Raleigh, NC</option><option value="Wilmington, NC">Wilmington, NC</option><option value="North Carolina">North Carolina</option><option value="Madison, WI">Madison, WI</option><option value="Volusia County, FL">Volusia County, FL</option><option value="Durham, NC">Durham, NC</option><option value="Charlotte, NC">Charlotte, NC</option></select></label><label>Departments<select class="tqsel" data-ans="Operations"><option value="">—</option><option value="Operations">Operations</option><option value="Franchising">Franchising</option><option value="Supply">Supply</option><option value="Ad Fund">Ad Fund</option></select></label></div>
+    <div class="qfb"></div>
+    <div class="qwhy">The Wilmington tiki unit operates under the TPNC entity; tag the CT Wilmington BU and Wilmington location, Operations.</div>
+  </div>
+
+  <div class="tq">
+    <div class="qhead"><span class="qn">E</span>
+      <div class="qtx"><div class="qmerch">BANK OF AMERICA — monthly fee on the manufacturing account</div><div class="qmeta">TourCraft supply arm · 38 like this</div></div>
+    </div>
+    <div class="tqgrid"><label>Entity<select class="tqsel" data-ans="TourCraft, LLC"><option value="">—</option><option value="TourScale Enterprises, LLC">TourScale Enterprises, LLC</option><option value="Trolley Pub of North Carolina, LLC">Trolley Pub of North Carolina, LLC</option><option value="TourScale Franchising, LLC">TourScale Franchising, LLC</option><option value="Kaapro &amp; Cole Ventures, LLC">Kaapro &amp; Cole Ventures, LLC</option><option value="Capitol Pedicycle, LLC">Capitol Pedicycle, LLC</option><option value="TourCraft, LLC">TourCraft, LLC</option></select></label><label>Business Unit<select class="tqsel" data-ans="TourCraft"><option value="">—</option><option value="TourScale Enterprises">TourScale Enterprises</option><option value="TourScale Franchising">TourScale Franchising</option><option value="TP Raleigh">TP Raleigh</option><option value="TPNC">TPNC</option><option value="CT Wilmington">CT Wilmington</option><option value="TourCraft">TourCraft</option><option value="TP Madison">TP Madison</option><option value="TP Wilmington">TP Wilmington</option><option value="PP Madison">PP Madison</option><option value="PP Daytona Beach">PP Daytona Beach</option><option value="TKP Ponce Inlet">TKP Ponce Inlet</option><option value="CT Daytona Beach">CT Daytona Beach</option><option value="TP Durham">TP Durham</option><option value="TP Charlotte">TP Charlotte</option><option value="KCH Sales">KCH Sales</option></select></label><label>Location<select class="tqsel" data-ans="TourScale HQ"><option value="">—</option><option value="TourScale HQ">TourScale HQ</option><option value="Raleigh, NC">Raleigh, NC</option><option value="Wilmington, NC">Wilmington, NC</option><option value="North Carolina">North Carolina</option><option value="Madison, WI">Madison, WI</option><option value="Volusia County, FL">Volusia County, FL</option><option value="Durham, NC">Durham, NC</option><option value="Charlotte, NC">Charlotte, NC</option></select></label><label>Departments<select class="tqsel" data-ans="Supply"><option value="">—</option><option value="Operations">Operations</option><option value="Franchising">Franchising</option><option value="Supply">Supply</option><option value="Ad Fund">Ad Fund</option></select></label></div>
+    <div class="qfb"></div>
+    <div class="qwhy">TourCraft is our manufacturing/supply entity — note the Supply department.</div>
+  </div>
+
+  <div class="tq">
+    <div class="qhead"><span class="qn">F</span>
+      <div class="qtx"><div class="qmerch">SBA EIDL LOAN — interest portion, Madison pedal-pub unit</div><div class="qmeta">Capitol Pedicycle / Madison · 35 like this</div></div>
+    </div>
+    <div class="tqgrid"><label>Entity<select class="tqsel" data-ans="Capitol Pedicycle, LLC"><option value="">—</option><option value="TourScale Enterprises, LLC">TourScale Enterprises, LLC</option><option value="Trolley Pub of North Carolina, LLC">Trolley Pub of North Carolina, LLC</option><option value="TourScale Franchising, LLC">TourScale Franchising, LLC</option><option value="Kaapro &amp; Cole Ventures, LLC">Kaapro &amp; Cole Ventures, LLC</option><option value="Capitol Pedicycle, LLC">Capitol Pedicycle, LLC</option><option value="TourCraft, LLC">TourCraft, LLC</option></select></label><label>Business Unit<select class="tqsel" data-ans="TP Madison"><option value="">—</option><option value="TourScale Enterprises">TourScale Enterprises</option><option value="TourScale Franchising">TourScale Franchising</option><option value="TP Raleigh">TP Raleigh</option><option value="TPNC">TPNC</option><option value="CT Wilmington">CT Wilmington</option><option value="TourCraft">TourCraft</option><option value="TP Madison">TP Madison</option><option value="TP Wilmington">TP Wilmington</option><option value="PP Madison">PP Madison</option><option value="PP Daytona Beach">PP Daytona Beach</option><option value="TKP Ponce Inlet">TKP Ponce Inlet</option><option value="CT Daytona Beach">CT Daytona Beach</option><option value="TP Durham">TP Durham</option><option value="TP Charlotte">TP Charlotte</option><option value="KCH Sales">KCH Sales</option></select></label><label>Location<select class="tqsel" data-ans="Madison, WI"><option value="">—</option><option value="TourScale HQ">TourScale HQ</option><option value="Raleigh, NC">Raleigh, NC</option><option value="Wilmington, NC">Wilmington, NC</option><option value="North Carolina">North Carolina</option><option value="Madison, WI">Madison, WI</option><option value="Volusia County, FL">Volusia County, FL</option><option value="Durham, NC">Durham, NC</option><option value="Charlotte, NC">Charlotte, NC</option></select></label><label>Departments<select class="tqsel" data-ans="Operations"><option value="">—</option><option value="Operations">Operations</option><option value="Franchising">Franchising</option><option value="Supply">Supply</option><option value="Ad Fund">Ad Fund</option></select></label></div>
+    <div class="qfb"></div>
+    <div class="qwhy">The Madison unit sits in the Capitol Pedicycle entity; tag the TP Madison BU and Madison location, Operations.</div>
+  </div>
+<div class="quizbtns">
+<button class="btn primary" onclick="checkTags()">Check Part B</button>
+<button class="btn ghost" onclick="resetTags()">Reset</button>
+<span class="score" id="tagscore"></span>
+</div>
+</div>
+
+<h2 id="s8"><span class="num">8.</span> First-week practice checklist</h2>
+<ul class="checklist">
+<li>Recite the number ranges from memory (1xxx assets … 8xxx other).</li>
+<li>Skim §3 and find the five accounts you think you'll use most; learn their notes.</li>
+<li>Memorize the live tag set in §4 — and remember the dropdown is full of retired options you must not pick.</li>
+<li>Score 100% on both parts of the §7 quiz (accounts <em>and</em> tags).</li>
+<li>Categorize 10 real transactions end-to-end (account + all 4 tags + receipt), then have them reviewed.</li>
+<li>Find one "Itemized" expense and inspect its line items.</li>
+<li>Pull a <b>P&amp;L by Business Unit</b> and a <b>P&amp;L by Entity</b> to see what your tagging produces.</li>
+<li>List anything still in <code>6999-9 Uncategorized</code> and propose a home for each.</li>
+</ul>
+<div class="callout">Questions on any account or tag — ask Kai before guessing. Consistency with how a vendor was categorized last time is almost always the right call.</div>
+</div>
+
+<div class="footer"><div class="grad"></div>
+<div class="inner">
+<div><img src="https://tourscale-repos.github.io/tourscale-email-assets/logos/tourscale-logo-white.png" alt="TourScale" />
+<div class="addr">1300 South Blvd #30102, Charlotte, NC 28203<br />1-888-753-7507</div></div>
+<div class="links"><a href="https://wiki.tourscale.com">TourScale Knowledge Hub</a><a href="https://www.tourscale.com">tourscale.com</a><a href="mailto:finance@tourscale.com">finance@tourscale.com</a></div>
+</div>
+<div class="copy">© 2026 TourScale Enterprises · Internal training document — not for external distribution</div>
+</div>
+</div>
+<script>
+function checkQuiz(){
+  var qs=document.querySelectorAll('.q'),right=0;
+  qs.forEach(function(q){
+    var sel=q.querySelector('.qsel'),fb=q.querySelector('.qfb'),ans=q.getAttribute('data-ans');
+    q.classList.remove('correct','wrong');
+    if(!sel.value){fb.textContent='— pick an account —';return;}
+    if(sel.value===ans){q.classList.add('correct');fb.textContent='✓ Correct';right++;}
+    else{q.classList.add('wrong');fb.textContent='✗ Correct answer: '+ans;}
+  });
+  document.getElementById('score').textContent='Score: '+right+' / '+qs.length;
+}
+function resetQuiz(){
+  document.querySelectorAll('.q').forEach(function(q){q.classList.remove('correct','wrong');q.querySelector('.qsel').value='';q.querySelector('.qfb').textContent='';});
+  document.getElementById('score').textContent='';
+}
+function checkTags(){
+  var qs=document.querySelectorAll('.tq'),right=0;
+  qs.forEach(function(q){
+    var sels=q.querySelectorAll('.tqsel'),fb=q.querySelector('.qfb'),allOk=true,answered=false;
+    sels.forEach(function(s){
+      s.classList.remove('ok','no');
+      if(s.value)answered=true;
+      if(s.value===s.getAttribute('data-ans'))s.classList.add('ok');
+      else{s.classList.add('no');allOk=false;}
+    });
+    q.classList.remove('correct','wrong');
+    if(!answered){fb.textContent='— set all four tags —';return;}
+    if(allOk){q.classList.add('correct');fb.textContent='✓ All four correct';right++;}
+    else{q.classList.add('wrong');fb.textContent='✗ Red fields are wrong — see why below';}
+  });
+  document.getElementById('tagscore').textContent='Score: '+right+' / '+qs.length+' fully correct';
+}
+function resetTags(){
+  document.querySelectorAll('.tq').forEach(function(q){q.classList.remove('correct','wrong');q.querySelectorAll('.tqsel').forEach(function(s){s.value='';s.classList.remove('ok','no');});q.querySelector('.qfb').textContent='';});
+  document.getElementById('tagscore').textContent='';
+}
+</script>
+</body>
+</html>
